@@ -51,6 +51,15 @@
             Try<Day2A>(P(i1, 18));
         }
 
+        [TestMethod]
+        public void TestDay2B()
+        {
+            string i1 = @"5 9 2 8
+9 4 7 3
+3 8 6 5";
+            Try<Day2B>(P(i1, 9));
+        }
+
         private static KeyValuePair<TKey, TValue> P<TKey, TValue>(TKey key, TValue value)
         {
             return new KeyValuePair<TKey, TValue>(key, value);
