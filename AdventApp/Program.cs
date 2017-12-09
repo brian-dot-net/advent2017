@@ -1,12 +1,10 @@
-﻿namespace AdventApp
+﻿namespace Advent
 {
-    using System;
-
     internal sealed class Program
     {
         private static void Main()
         {
-            Console.WriteLine("Placeholder.");
+            new Day1A().Run();
         }
     }
 }

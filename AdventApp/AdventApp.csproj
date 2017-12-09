@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A04D0C75-21AF-4586-AB31-F9B6C5A4BE78}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>AdventApp</RootNamespace>
+    <RootNamespace>Advent</RootNamespace>
     <AssemblyName>AdventApp</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Day1A.cs" />
+    <Compile Include="ICanRun.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

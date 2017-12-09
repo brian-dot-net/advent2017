@@ -7,7 +7,7 @@
     <ProjectGuid>{82F234F4-C341-49AB-945A-7F30D99E65F3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AdventTest</RootNamespace>
+    <RootNamespace>Advent.Test</RootNamespace>
     <AssemblyName>AdventTest</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

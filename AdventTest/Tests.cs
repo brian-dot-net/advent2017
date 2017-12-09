@@ -1,20 +1,34 @@
-﻿namespace AdventTest
+﻿namespace Advent.Test
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Collections.Generic;
     using FluentAssertions;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public sealed class Tests
     {
         [TestMethod]
-        public void X()
+        public void TestDay1A()
         {
-            int x = 1;
-            int y = 2;
+            Try<Day1A>(
+                P("1122", 3),
+                P("1111", 4),
+                P("1234", 0),
+                P("91212129", 9));
+        }
 
-            int sum = x + y;
+        private static KeyValuePair<TKey, TValue> P<TKey, TValue>(TKey key, TValue value)
+        {
+            return new KeyValuePair<TKey, TValue>(key, value);
+        }
 
-            sum.Should().Be(3);
+        private static void Try<TDay>(params KeyValuePair<string, int>[] pairs) where TDay : ICanRun, new()
+        {
+            foreach (KeyValuePair<string, int> pair in pairs)
+            {
+                string input = pair.Key;
+                new TDay().Run(pair.Key).Should().Be(pair.Value, "{0} was the input", input);
+            }
         }
     }
 }
