@@ -31,6 +31,17 @@
                 P("91212129", 9));
         }
 
+        [TestMethod]
+        public void TestDay1B()
+        {
+            Try<Day1B>(
+                P("1212", 6),
+                P("1221", 0),
+                P("123425", 4),
+                P("123123", 12),
+                P("12131415", 4));
+        }
+
         private static KeyValuePair<TKey, TValue> P<TKey, TValue>(TKey key, TValue value)
         {
             return new KeyValuePair<TKey, TValue>(key, value);
