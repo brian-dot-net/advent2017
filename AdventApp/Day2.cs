@@ -1,5 +1,9 @@
 ﻿namespace Advent
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+
     public abstract class Day2 : ICanRun
     {
         public string DefaultInput
@@ -25,6 +29,39 @@
         public int Run(string input)
         {
             return this.RunCore(input);
+        }
+
+        protected static IEnumerable<int[]> Rows(string input)
+        {
+            return LinesOf(input).Select(l => l.Split()).Select(r => AsInts(r));
+        }
+
+        protected static int[] AsInts(string[] values)
+        {
+            int[] results = new int[values.Length];
+            for (int i = 0; i < values.Length; ++i)
+            {
+                results[i] = int.Parse(values[i]);
+            }
+
+            return results;
+        }
+
+        protected static IEnumerable<string> LinesOf(string input)
+        {
+            using (StringReader sr = new StringReader(input))
+            {
+                string next;
+                do
+                {
+                    next = sr.ReadLine();
+                    if (next != null)
+                    {
+                        yield return next;
+                    }
+                }
+                while (next != null);
+            }
         }
 
         protected abstract int RunCore(string input);
