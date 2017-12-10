@@ -60,6 +60,16 @@
             Try<Day2B>(P(i1, 9));
         }
 
+        [TestMethod]
+        public void TestDay3A()
+        {
+            Try<Day3A>(
+                P("1", 0),
+                P("12", 3),
+                P("23", 2),
+                P("1024", 31));
+        }
+
         private static KeyValuePair<TKey, TValue> P<TKey, TValue>(TKey key, TValue value)
         {
             return new KeyValuePair<TKey, TValue>(key, value);

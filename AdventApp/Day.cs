@@ -1,6 +1,5 @@
 ﻿namespace Advent
 {
-    using System;
     using System.IO;
 
     public static class Day
