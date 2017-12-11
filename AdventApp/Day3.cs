@@ -16,76 +16,81 @@
 
         protected abstract int RunCore(string input);
 
-        protected sealed class Steps
+        protected sealed class Ring
         {
-            private int remaining;
-            private int stride;
-            private Direction dir;
-            private int x;
-            private int y;
-            private int step;
+            private readonly int index;
 
-            public Steps(int n)
+            public Ring(int index)
             {
-                this.remaining = n - 1;
+                this.index = index;
             }
 
-            public int Distance
-            {
-                get => Math.Abs(this.x) + Math.Abs(this.y);
-            }
+            public int Max => 4 * this.index * (this.index + 1) + 1;
 
-            public bool MoveMany()
+            private int Min => 4 * this.index * (this.index - 1) + 2;
+
+            private int Count => this.Max - this.Min + 1;
+
+            private int QuadLength => this.index * 2;
+
+            public int Distance(int n)
             {
-                this.Turn();
-                bool hasMore = this.remaining > this.stride;
-                if (!hasMore)
+                if (this.index == 0)
                 {
-                    this.stride = this.remaining;
+                    return 0;
                 }
 
-                this.MoveNow();
-                this.remaining -= this.stride;
-
-                return hasMore;
-            }
-
-            private void Turn()
-            {
-                this.dir = (Direction)(((int)this.dir + 1) % 4);
-                if (this.step % 2 == 0)
+                int i = n - this.Min;
+                int q = 4 * i / this.Count;
+                int qi = i - q * this.QuadLength;
+                switch ((Quadrant)q)
                 {
-                    ++this.stride;
-                }
-
-                ++this.step;
-            }
-
-            private void MoveNow()
-            {
-                switch (this.dir)
-                {
-                    case Direction.Down:
-                        this.y -= this.stride;
-                        break;
-                    case Direction.Right:
-                        this.x += this.stride;
-                        break;
-                    case Direction.Up:
-                        this.y += this.stride;
-                        break;
-                    case Direction.Left:
-                        this.x -= this.stride;
-                        break;
+                    case Quadrant.Right:
+                        return QuadDistance(qi, P(1, 0), P(0, 1));
+                    case Quadrant.Upper:
+                        return QuadDistance(qi, P(0, 1), P(-1, 0));
+                    case Quadrant.Left:
+                        return QuadDistance(qi, P(-1, 0), P(0, -1));
+                    case Quadrant.Lower:
+                        return QuadDistance(qi, P(0, -1), P(1, 0));
+                    default:
+                        throw new NotSupportedException();
                 }
             }
 
-            private enum Direction
+            private static Pair P(int x, int y) => new Pair(x, y);
+
+            public Ring Next()
             {
-                Down,
+                return new Ring(this.index + 1);
+            }
+
+            private static int QuadDistance(int qi, Pair start, Pair inc) => (start + qi * inc).Distance;
+
+            private enum Quadrant
+            {
                 Right,
-                Up,
-                Left
+                Upper,
+                Left,
+                Lower
+            }
+
+            private struct Pair
+            {
+                private readonly int x;
+                private readonly int y;
+
+                public Pair(int x, int y)
+                {
+                    this.x = x;
+                    this.y = y;
+                }
+
+                public int Distance => Math.Abs(x) + Math.Abs(y);
+
+                public static Pair operator +(Pair p1, Pair p2) => new Pair(p1.x + p2.x, p1.y + p2.y);
+
+                public static Pair operator *(int n, Pair p) => new Pair(p.x * n, p.y * n);
             }
         }
     }

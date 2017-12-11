@@ -5,12 +5,13 @@
         protected override int RunCore(string input)
         {
             int n = int.Parse(input);
-            Steps steps = new Steps(n);
-            while (steps.MoveMany())
+            Ring ring = new Ring(0);
+            while (ring.Max < n)
             {
+                ring = ring.Next();
             }
 
-            return steps.Distance;
+            return ring.Distance(n);
         }
     }
 }
