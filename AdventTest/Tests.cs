@@ -95,6 +95,22 @@ a b c c";
                 P(many, 2));
         }
 
+        [TestMethod]
+        public void TestDay4B()
+        {
+            string many = @"a b c d
+e f g h
+a a b c
+a b ca ac";
+            Try<Day4B>(
+                P("abcde fghij", 1),
+                P("abcde xyz ecdab", 0),
+                P("a ab abc abd abf abj", 1),
+                P("iiii oiii ooii oooi oooo", 1),
+                P("oiii ioii iioi iiio", 0),
+                P(many, 2));
+        }
+
         private static KeyValuePair<TKey, TValue> P<TKey, TValue>(TKey key, TValue value)
         {
             return new KeyValuePair<TKey, TValue>(key, value);
