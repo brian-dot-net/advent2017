@@ -19,7 +19,7 @@
                 Day.Show<ADay>(w);
             }
 
-            output.ToString().Should().Be("ADay => -1\r\n");
+            output.ToString().Should().Match("ADay => -1 (* ms elapsed)\r\n");
         }
 
         [TestMethod]
@@ -69,6 +69,16 @@
                 P("12", 3),
                 P("23", 2),
                 P("1024", 31));
+        }
+
+        [TestMethod]
+        public void TestDay3B()
+        {
+            Try<Day3B>(
+                P("1", 2),
+                P("12", 23),
+                P("23", 25),
+                P("747", 806));
         }
 
         private static KeyValuePair<TKey, TValue> P<TKey, TValue>(TKey key, TValue value)

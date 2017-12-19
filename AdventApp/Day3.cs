@@ -44,10 +44,10 @@
 
             private sealed class Ring
             {
-                private readonly CellCollection values;
+                private readonly CellValues values;
                 private readonly int radius;
 
-                private Ring(CellCollection values, int radius)
+                private Ring(CellValues values, int radius)
                 {
                     this.values = values;
                     this.radius = radius;
@@ -57,7 +57,7 @@
 
                 public static Ring First(bool useSums)
                 {
-                    return new Ring(CellCollection.New(useSums), 0);
+                    return new Ring(CellValues.New(useSums), 0);
                 }
 
                 public Ring Next()
@@ -70,35 +70,30 @@
                     return new RingCells(values, this.radius).All();
                 }
 
-                private abstract class CellCollection
+                private abstract class CellValues
                 {
-                    private readonly Dictionary<Pair, int> values;
-
-                    protected CellCollection()
+                    protected CellValues()
                     {
-                        this.values = new Dictionary<Pair, int>();
                     }
 
-                    public static CellCollection New(bool useSums)
+                    public static CellValues New(bool useSums)
                     {
-                        return new SequentialCellCollection();
+                        if (useSums)
+                        {
+                            return new AdjacentSumCellValues();
+                        }
+
+                        return new SequentialCellValues();
                     }
 
                     public Cell Get(Pair pair)
                     {
-                        int value;
-                        if (!this.values.TryGetValue(pair, out value))
-                        {
-                            value = this.GetValue(pair);
-                            this.values.Add(pair, value);
-                        }
-
-                        return new Cell(pair, value);
+                        return new Cell(pair, this.GetValue(pair));
                     }
 
                     protected abstract int GetValue(Pair pair);
 
-                    private sealed class SequentialCellCollection : CellCollection
+                    private sealed class SequentialCellValues : CellValues
                     {
                         private int value;
 
@@ -107,17 +102,60 @@
                             return ++this.value;
                         }
                     }
+
+                    private sealed class AdjacentSumCellValues : CellValues
+                    {
+                        private readonly Dictionary<Pair, int> cache;
+
+                        public AdjacentSumCellValues()
+                        {
+                            this.cache = new Dictionary<Pair, int>();
+                        }
+
+                        protected override int GetValue(Pair pair)
+                        {
+                            int sum = 0;
+
+                            sum += this.CachedValue(pair + P(1, 0));
+                            sum += this.CachedValue(pair + P(1, 1));
+                            sum += this.CachedValue(pair + P(0, 1));
+                            sum += this.CachedValue(pair + P(-1, 1));
+                            sum += this.CachedValue(pair + P(-1, 0));
+                            sum += this.CachedValue(pair + P(-1, -1));
+                            sum += this.CachedValue(pair + P(0, -1));
+                            sum += this.CachedValue(pair + P(1, -1));
+
+                            if (sum == 0)
+                            {
+                                sum = 1;
+                            }
+
+                            this.cache.Add(pair, sum);
+                            return sum;
+                        }
+
+                        private int CachedValue(Pair p)
+                        {
+                            int v;
+                            if (!this.cache.TryGetValue(p, out v))
+                            {
+                                v = 0;
+                            }
+
+                            return v;
+                        }
+                    }
                 }
 
                 private sealed class RingCells
                 {
-                    private readonly CellCollection values;
+                    private readonly CellValues values;
                     private readonly int radius;
 
                     private Pair current;
                     private int dir;
 
-                    public RingCells(CellCollection values, int radius)
+                    public RingCells(CellValues values, int radius)
                     {
                         this.values = values;
                         this.radius = radius;
@@ -191,7 +229,7 @@
             public int Value => this.value;
         }
 
-        protected struct Pair
+        protected struct Pair : IEquatable<Pair>
         {
             private readonly int x;
             private readonly int y;
@@ -215,9 +253,9 @@
                 return (this.DX > r) || (this.DY > r);
             }
 
-            public override string ToString()
+            public bool Equals(Pair other)
             {
-                return "(" + this.x + ", " + this.y + ")";
+                return (this.x == other.x) && (this.y == other.y);
             }
         }
     }
