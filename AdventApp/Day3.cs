@@ -27,14 +27,14 @@
             {
             }
 
-            public IEnumerable<Cell> Cells()
+            public IEnumerable<Cell> Cells(bool useSums)
             {
-                return this.Rings().SelectMany(r => r.Cells());
+                return this.Rings(useSums).SelectMany(r => r.Cells());
             }
 
-            private IEnumerable<Ring> Rings()
+            private IEnumerable<Ring> Rings(bool useSums)
             {
-                Ring current = Ring.First();
+                Ring current = Ring.First(useSums);
                 while (true)
                 {
                     yield return current;
@@ -55,10 +55,9 @@
 
                 private int Count => 8 * this.radius;
 
-                public static Ring First()
+                public static Ring First(bool useSums)
                 {
-                    int v = 0;
-                    return new Ring(new CellCollection(p => ++v), 0);
+                    return new Ring(CellCollection.New(useSums), 0);
                 }
 
                 public Ring Next()
@@ -71,15 +70,18 @@
                     return new RingCells(values, this.radius).All();
                 }
 
-                private sealed class CellCollection
+                private abstract class CellCollection
                 {
-                    private readonly Func<Pair, int> calcValue;
                     private readonly Dictionary<Pair, int> values;
 
-                    public CellCollection(Func<Pair, int> calcValue)
+                    protected CellCollection()
                     {
-                        this.calcValue = calcValue;
                         this.values = new Dictionary<Pair, int>();
+                    }
+
+                    public static CellCollection New(bool useSums)
+                    {
+                        return new SequentialCellCollection();
                     }
 
                     public Cell Get(Pair pair)
@@ -87,11 +89,23 @@
                         int value;
                         if (!this.values.TryGetValue(pair, out value))
                         {
-                            value = this.calcValue(pair);
+                            value = this.GetValue(pair);
                             this.values.Add(pair, value);
                         }
 
                         return new Cell(pair, value);
+                    }
+
+                    protected abstract int GetValue(Pair pair);
+
+                    private sealed class SequentialCellCollection : CellCollection
+                    {
+                        private int value;
+
+                        protected override int GetValue(Pair pair)
+                        {
+                            return ++this.value;
+                        }
                     }
                 }
 

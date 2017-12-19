@@ -8,7 +8,7 @@
         {
             int n = int.Parse(input);
             Spiral spiral = new Spiral();
-            return spiral.Cells().First(c => c.Value == n).Distance;
+            return spiral.Cells(false).First(c => c.Value == n).Distance;
         }
     }
 }
