@@ -6,15 +6,9 @@
 
     public abstract class Day3 : ICanRun
     {
-        public string DefaultInput
-        {
-            get => @"265149";
-        }
+        public string DefaultInput => @"265149";
 
-        public int Run(string input)
-        {
-            return this.RunCore(input);
-        }
+        public int Run(string input) => this.RunCore(input);
 
         protected abstract int RunCore(string input);
 
@@ -23,18 +17,18 @@
 
         protected sealed class Spiral
         {
-            public Spiral()
+            private readonly bool useSums;
+
+            public Spiral(bool useSums)
             {
+                this.useSums = useSums;
             }
 
-            public IEnumerable<Cell> Cells(bool useSums)
-            {
-                return this.Rings(useSums).SelectMany(r => r.Cells());
-            }
+            public Cell FirstCell(Func<Cell, bool> pred) => this.Rings().SelectMany(r => r.Cells()).First(pred);
 
-            private IEnumerable<Ring> Rings(bool useSums)
+            private IEnumerable<Ring> Rings()
             {
-                Ring current = Ring.First(useSums);
+                Ring current = Ring.First(this.useSums);
                 while (true)
                 {
                     yield return current;
@@ -55,20 +49,11 @@
 
                 private int Count => 8 * this.radius;
 
-                public static Ring First(bool useSums)
-                {
-                    return new Ring(CellValues.New(useSums), 0);
-                }
+                public static Ring First(bool useSums) => new Ring(CellValues.New(useSums), 0);
 
-                public Ring Next()
-                {
-                    return new Ring(this.values, this.radius + 1);
-                }
+                public Ring Next() => new Ring(this.values, this.radius + 1);
 
-                public IEnumerable<Cell> Cells()
-                {
-                    return new RingCells(values, this.radius).All();
-                }
+                public IEnumerable<Cell> Cells() => new RingCells(values, this.radius).All();
 
                 private abstract class CellValues
                 {
@@ -86,10 +71,7 @@
                         return new SequentialCellValues();
                     }
 
-                    public Cell Get(Pair pair)
-                    {
-                        return new Cell(pair, this.GetValue(pair));
-                    }
+                    public Cell Get(Pair pair) => new Cell(pair, this.GetValue(pair));
 
                     protected abstract int GetValue(Pair pair);
 
@@ -97,10 +79,7 @@
                     {
                         private int value;
 
-                        protected override int GetValue(Pair pair)
-                        {
-                            return ++this.value;
-                        }
+                        protected override int GetValue(Pair pair) => ++this.value;
                     }
 
                     private sealed class AdjacentSumCellValues : CellValues
@@ -205,10 +184,7 @@
                         return next;
                     }
 
-                    private Pair TrialMove()
-                    {
-                        return this.current + this.Dir;
-                    }
+                    private Pair TrialMove() => this.current + this.Dir;
                 }
             }
         }
@@ -248,15 +224,9 @@
 
             public static Pair operator +(Pair a, Pair b) => new Pair(a.x + b.x, a.y + b.y);
 
-            public bool Exceeds(int r)
-            {
-                return (this.DX > r) || (this.DY > r);
-            }
+            public bool Exceeds(int r) => (this.DX > r) || (this.DY > r);
 
-            public bool Equals(Pair other)
-            {
-                return (this.x == other.x) && (this.y == other.y);
-            }
+            public bool Equals(Pair other) => (this.x == other.x) && (this.y == other.y);
         }
     }
 }

@@ -7,8 +7,7 @@
         protected override int RunCore(string input)
         {
             int n = int.Parse(input);
-            Spiral spiral = new Spiral();
-            return spiral.Cells(true).First(c => c.Value > n).Value;
+            return new Spiral(true).FirstCell(c => c.Value > n).Value;
         }
     }
 }

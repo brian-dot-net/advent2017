@@ -6,9 +6,7 @@
 
     public abstract class Day2 : ICanRun
     {
-        public string DefaultInput
-        {
-            get => @"4168 3925 858 2203 440 185 2886 160 1811 4272 4333 2180 174 157 361 1555
+        public string DefaultInput => @"4168 3925 858 2203 440 185 2886 160 1811 4272 4333 2180 174 157 361 1555
 150 111 188 130 98 673 408 632 771 585 191 92 622 158 537 142
 5785 5174 1304 3369 3891 131 141 5781 5543 4919 478 6585 116 520 673 112
 5900 173 5711 236 2920 177 3585 4735 2135 2122 5209 265 5889 233 4639 5572
@@ -24,17 +22,10 @@
 191 53 714 745 89 899 854 679 45 81 726 801 72 338 95 417
 219 3933 6626 2137 3222 1637 5312 238 5895 222 154 6649 169 6438 3435 4183
 37 1069 166 1037 172 258 1071 90 497 1219 145 1206 143 153 1067 510";
-        }
 
-        public int Run(string input)
-        {
-            return this.RunCore(input);
-        }
+        public int Run(string input) => this.RunCore(input);
 
-        protected static IEnumerable<int[]> Rows(string input)
-        {
-            return LinesOf(input).Select(l => l.Split()).Select(r => AsInts(r));
-        }
+        protected static IEnumerable<int[]> Rows(string input) => LinesOf(input).Select(l => l.Split()).Select(r => AsInts(r));
 
         protected static int[] AsInts(string[] values)
         {
