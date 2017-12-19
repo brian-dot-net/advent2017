@@ -81,6 +81,20 @@
                 P("747", 806));
         }
 
+        [TestMethod]
+        public void TestDay4A()
+        {
+            string many = @"a b c d
+e f g h
+a a b c
+a b c c";
+            Try<Day4A>(
+                P("aa bb cc dd ee", 1),
+                P("aa bb cc dd aa", 0),
+                P("aa bb cc dd aaa", 1),
+                P(many, 2));
+        }
+
         private static KeyValuePair<TKey, TValue> P<TKey, TValue>(TKey key, TValue value)
         {
             return new KeyValuePair<TKey, TValue>(key, value);

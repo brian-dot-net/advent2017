@@ -12,7 +12,6 @@
 
         protected abstract int RunCore(string input);
 
-
         private static Pair P(int x, int y) => new Pair(x, y);
 
         protected sealed class Spiral

@@ -25,7 +25,7 @@
 
         public int Run(string input) => this.RunCore(input);
 
-        protected static IEnumerable<int[]> Rows(string input) => LinesOf(input).Select(l => l.Split()).Select(r => AsInts(r));
+        protected static IEnumerable<int[]> Rows(string input) => Lines.From(input).Select(l => l.Split()).Select(r => AsInts(r));
 
         protected static int[] AsInts(string[] values)
         {
@@ -36,23 +36,6 @@
             }
 
             return results;
-        }
-
-        protected static IEnumerable<string> LinesOf(string input)
-        {
-            using (StringReader sr = new StringReader(input))
-            {
-                string next;
-                do
-                {
-                    next = sr.ReadLine();
-                    if (next != null)
-                    {
-                        yield return next;
-                    }
-                }
-                while (next != null);
-            }
         }
 
         protected abstract int RunCore(string input);
