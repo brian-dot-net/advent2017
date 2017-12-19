@@ -5,7 +5,7 @@
         protected override int RunCore(string input)
         {
             int n = int.Parse(input);
-            Ring ring = new Ring(0);
+            Ring ring = Ring.First();
             while (ring.Max < n)
             {
                 ring = ring.Next();

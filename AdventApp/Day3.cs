@@ -1,6 +1,8 @@
 ﻿namespace Advent
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public abstract class Day3 : ICanRun
     {
@@ -18,61 +20,72 @@
 
         protected sealed class Ring
         {
-            private readonly int index;
+            private readonly Ring previous;
+            private readonly int radius;
+            private readonly int[] values;
 
-            public Ring(int index)
+            private Ring(Ring previous, int radius)
             {
-                this.index = index;
+                this.previous = previous;
+                this.radius = radius;
+                int n = 1;
+                if (this.Count > 0)
+                {
+                    n = this.Count;
+                }
+
+                this.values = Enumerable.Range(this.PrevMax + 1, n).ToArray();
             }
 
-            public int Max => 4 * this.index * (this.index + 1) + 1;
+            public int Max => this.values[this.values.Length - 1];
 
-            private int Min => 4 * this.index * (this.index - 1) + 2;
+            private int Min => this.values[0];
 
-            private int Count => this.Max - this.Min + 1;
+            private int Count => 8 * this.radius;
 
-            private int QuadLength => this.index * 2;
+            private int PrevMax
+            {
+                get
+                {
+                    if (this.previous == null)
+                    {
+                        return 0;
+                    }
+
+                    return this.previous.Max;
+                }
+            }
+
+            public static Ring First()
+            {
+                return new Ring(null, 0);
+            }
+
+            public Ring Next()
+            {
+                return new Ring(this, this.radius + 1);
+            }
 
             public int Distance(int n)
             {
-                if (this.index == 0)
-                {
-                    return 0;
-                }
-
                 int i = n - this.Min;
-                int q = 4 * i / this.Count;
-                int qi = i - q * this.QuadLength;
-                switch ((Quadrant)q)
-                {
-                    case Quadrant.Right:
-                        return QuadDistance(qi, P(1, 0), P(0, 1));
-                    case Quadrant.Upper:
-                        return QuadDistance(qi, P(0, 1), P(-1, 0));
-                    case Quadrant.Left:
-                        return QuadDistance(qi, P(-1, 0), P(0, -1));
-                    case Quadrant.Lower:
-                        return QuadDistance(qi, P(0, -1), P(1, 0));
-                    default:
-                        throw new NotSupportedException();
-                }
+                Pair p = this.Coords().Skip(i).First();
+                return p.Distance;
             }
 
             private static Pair P(int x, int y) => new Pair(x, y);
 
-            public Ring Next()
+            private IEnumerable<Pair> Coords()
             {
-                return new Ring(this.index + 1);
-            }
-
-            private static int QuadDistance(int qi, Pair start, Pair inc) => (start + qi * inc).Distance;
-
-            private enum Quadrant
-            {
-                Right,
-                Upper,
-                Left,
-                Lower
+                Spiral spiral = new Spiral(this.radius);
+                int n = this.Count;
+                do
+                {
+                    yield return spiral.Current;
+                    spiral.MoveNext();
+                    --n;
+                }
+                while (n > 0);
             }
 
             private struct Pair
@@ -86,11 +99,72 @@
                     this.y = y;
                 }
 
-                public int Distance => Math.Abs(x) + Math.Abs(y);
+                public int Distance => this.DX + this.DY;
 
-                public static Pair operator +(Pair p1, Pair p2) => new Pair(p1.x + p2.x, p1.y + p2.y);
+                private int DX => Math.Abs(this.x);
 
-                public static Pair operator *(int n, Pair p) => new Pair(p.x * n, p.y * n);
+                private int DY => Math.Abs(this.y);
+
+                public static Pair operator +(Pair a, Pair b) => new Pair(a.x + b.x, a.y + b.y);
+
+                public bool Exceeds(int r)
+                {
+                    return (this.DX > r) || (this.DY > r);
+                }
+            }
+
+            private sealed class Spiral
+            {
+                private readonly int radius;
+
+                private int dir;
+
+                public Spiral(int radius)
+                {
+                    this.radius = radius;
+                    if (this.radius > 0)
+                    {
+                        this.Current = new Pair(this.radius, 1 - this.radius);
+                    }
+                }
+
+                public Pair Current { get; private set; }
+
+                private Pair Dir
+                {
+                    get
+                    {
+                        switch (this.dir)
+                        {
+                            case 1: return P(-1, 0);
+                            case 2: return P(0, -1);
+                            case 3: return P(1, 0);
+                            default: return P(0, 1);
+                        }
+                    }
+                }
+
+                public void MoveNext()
+                {
+                    Pair next = this.TrialMove();
+                    if (next.Exceeds(radius))
+                    {
+                        this.NextDir();
+                        next = this.TrialMove();
+                    }
+
+                    this.Current = next;
+                }
+
+                private Pair TrialMove()
+                {
+                    return this.Current + this.Dir;
+                }
+
+                private void NextDir()
+                {
+                    this.dir = (this.dir + 1) % 4;
+                }
             }
         }
     }
