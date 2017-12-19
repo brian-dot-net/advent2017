@@ -1,5 +1,6 @@
 ﻿namespace Advent.Test
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
@@ -80,7 +81,11 @@
             foreach (KeyValuePair<string, int> pair in pairs)
             {
                 string input = pair.Key;
-                new TDay().Run(pair.Key).Should().Be(pair.Value, "{0} was the input", input);
+                int result = -1;
+                Action act = () => result = new TDay().Run(pair.Key);
+
+                act.ShouldNotThrow("{0} was the input", input);
+                result.Should().Be(pair.Value, "{0} was the input", input);
             }
         }
 

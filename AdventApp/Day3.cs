@@ -18,153 +18,192 @@
 
         protected abstract int RunCore(string input);
 
-        protected sealed class Ring
+
+        private static Pair P(int x, int y) => new Pair(x, y);
+
+        protected sealed class Spiral
         {
-            private readonly Ring previous;
-            private readonly int radius;
-            private readonly int[] values;
-
-            private Ring(Ring previous, int radius)
+            public Spiral()
             {
-                this.previous = previous;
-                this.radius = radius;
-                int n = 1;
-                if (this.Count > 0)
-                {
-                    n = this.Count;
-                }
-
-                this.values = Enumerable.Range(this.PrevMax + 1, n).ToArray();
             }
 
-            public int Max => this.values[this.values.Length - 1];
-
-            private int Min => this.values[0];
-
-            private int Count => 8 * this.radius;
-
-            private int PrevMax
+            public IEnumerable<Cell> Cells()
             {
-                get
-                {
-                    if (this.previous == null)
-                    {
-                        return 0;
-                    }
+                return this.Rings().SelectMany(r => r.Cells());
+            }
 
-                    return this.previous.Max;
+            private IEnumerable<Ring> Rings()
+            {
+                Ring current = Ring.First();
+                while (true)
+                {
+                    yield return current;
+                    current = current.Next();
                 }
             }
 
-            public static Ring First()
+            private sealed class Ring
             {
-                return new Ring(null, 0);
-            }
-
-            public Ring Next()
-            {
-                return new Ring(this, this.radius + 1);
-            }
-
-            public int Distance(int n)
-            {
-                int i = n - this.Min;
-                Pair p = this.Coords().Skip(i).First();
-                return p.Distance;
-            }
-
-            private static Pair P(int x, int y) => new Pair(x, y);
-
-            private IEnumerable<Pair> Coords()
-            {
-                Spiral spiral = new Spiral(this.radius);
-                int n = this.Count;
-                do
-                {
-                    yield return spiral.Current;
-                    spiral.MoveNext();
-                    --n;
-                }
-                while (n > 0);
-            }
-
-            private struct Pair
-            {
-                private readonly int x;
-                private readonly int y;
-
-                public Pair(int x, int y)
-                {
-                    this.x = x;
-                    this.y = y;
-                }
-
-                public int Distance => this.DX + this.DY;
-
-                private int DX => Math.Abs(this.x);
-
-                private int DY => Math.Abs(this.y);
-
-                public static Pair operator +(Pair a, Pair b) => new Pair(a.x + b.x, a.y + b.y);
-
-                public bool Exceeds(int r)
-                {
-                    return (this.DX > r) || (this.DY > r);
-                }
-            }
-
-            private sealed class Spiral
-            {
+                private readonly CellCollection values;
                 private readonly int radius;
 
-                private int dir;
-
-                public Spiral(int radius)
+                private Ring(CellCollection values, int radius)
                 {
+                    this.values = values;
                     this.radius = radius;
-                    if (this.radius > 0)
+                }
+
+                private int Count => 8 * this.radius;
+
+                public static Ring First()
+                {
+                    int v = 0;
+                    return new Ring(new CellCollection(p => ++v), 0);
+                }
+
+                public Ring Next()
+                {
+                    return new Ring(this.values, this.radius + 1);
+                }
+
+                public IEnumerable<Cell> Cells()
+                {
+                    return new RingCells(values, this.radius).All();
+                }
+
+                private sealed class CellCollection
+                {
+                    private readonly Func<Pair, int> calcValue;
+                    private readonly Dictionary<Pair, int> values;
+
+                    public CellCollection(Func<Pair, int> calcValue)
                     {
-                        this.Current = new Pair(this.radius, 1 - this.radius);
+                        this.calcValue = calcValue;
+                        this.values = new Dictionary<Pair, int>();
+                    }
+
+                    public Cell Get(Pair pair)
+                    {
+                        int value;
+                        if (!this.values.TryGetValue(pair, out value))
+                        {
+                            value = this.calcValue(pair);
+                            this.values.Add(pair, value);
+                        }
+
+                        return new Cell(pair, value);
                     }
                 }
 
-                public Pair Current { get; private set; }
-
-                private Pair Dir
+                private sealed class RingCells
                 {
-                    get
+                    private readonly CellCollection values;
+                    private readonly int radius;
+
+                    private Pair current;
+                    private int dir;
+
+                    public RingCells(CellCollection values, int radius)
                     {
-                        switch (this.dir)
+                        this.values = values;
+                        this.radius = radius;
+                        if (this.radius > 0)
                         {
-                            case 1: return P(-1, 0);
-                            case 2: return P(0, -1);
-                            case 3: return P(1, 0);
-                            default: return P(0, 1);
+                            this.current = P(this.radius, 1 - this.radius);
                         }
                     }
-                }
 
-                public void MoveNext()
-                {
-                    Pair next = this.TrialMove();
-                    if (next.Exceeds(radius))
+                    private int Count => this.radius * 8;
+
+                    private Pair Dir
                     {
-                        this.NextDir();
-                        next = this.TrialMove();
+                        get
+                        {
+                            switch (this.dir)
+                            {
+                                case 1: return P(-1, 0);
+                                case 2: return P(0, -1);
+                                case 3: return P(1, 0);
+                                default: return P(0, 1);
+                            }
+                        }
                     }
 
-                    this.Current = next;
-                }
+                    public IEnumerable<Cell> All()
+                    {
+                        int i = 0;
+                        do
+                        {
+                            yield return this.values.Get(this.current);
+                            this.current = this.Next();
+                            ++i;
+                        }
+                        while (i < this.Count);
+                    }
 
-                private Pair TrialMove()
-                {
-                    return this.Current + this.Dir;
-                }
+                    private Pair Next()
+                    {
+                        Pair next = this.TrialMove();
+                        if (next.Exceeds(this.radius))
+                        {
+                            this.dir = (this.dir + 1) % 4;
+                            next = this.TrialMove();
+                        }
 
-                private void NextDir()
-                {
-                    this.dir = (this.dir + 1) % 4;
+                        return next;
+                    }
+
+                    private Pair TrialMove()
+                    {
+                        return this.current + this.Dir;
+                    }
                 }
+            }
+        }
+
+        protected struct Cell
+        {
+            private readonly Pair pair;
+            private readonly int value;
+
+            public Cell(Pair pair, int value)
+            {
+                this.pair = pair;
+                this.value = value;
+            }
+
+            public int Distance => this.pair.Distance;
+
+            public int Value => this.value;
+        }
+
+        protected struct Pair
+        {
+            private readonly int x;
+            private readonly int y;
+
+            public Pair(int x, int y)
+            {
+                this.x = x;
+                this.y = y;
+            }
+
+            public int Distance => this.DX + this.DY;
+
+            private int DX => Math.Abs(this.x);
+
+            private int DY => Math.Abs(this.y);
+
+            public static Pair operator +(Pair a, Pair b) => new Pair(a.x + b.x, a.y + b.y);
+
+            public bool Exceeds(int r)
+            {
+                return (this.DX > r) || (this.DY > r);
+            }
+
+            public override string ToString()
+            {
+                return "(" + this.x + ", " + this.y + ")";
             }
         }
     }
