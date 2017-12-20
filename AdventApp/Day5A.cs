@@ -1,23 +1,9 @@
-﻿using System.Linq;
-
-namespace Advent
+﻿namespace Advent
 {
+    using System.Linq;
+
     public class Day5A : Day5
     {
-        protected override int RunCore(string input)
-        {
-            int[] jumps = Lines.From(input).Select(n => int.Parse(n)).ToArray();
-            int i = 0;
-            int total = 0;
-            while (i < jumps.Length)
-            {
-                int offset = jumps[i];
-                ++jumps[i];
-                ++total;
-                i += offset;
-            }
-
-            return total;
-        }
+        protected override int RunCore(string input) => new JumpTable(input, o => 1).Count();
     }
 }
