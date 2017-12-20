@@ -85,13 +85,17 @@
                 this.states = new Dictionary<Guid, int>();
             }
 
+            public int LoopCount { get; private set; }
+
             public int Count { get; private set; }
 
             public bool Add(byte[] banks)
             {
                 Guid key = new Guid(banks);
-                if (this.states.ContainsKey(key))
+                int firstCycle;
+                if (this.states.TryGetValue(key, out firstCycle))
                 {
+                    this.LoopCount = 1 + this.Count - firstCycle;
                     return false;
                 }
 

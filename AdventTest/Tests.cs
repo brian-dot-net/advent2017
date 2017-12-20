@@ -142,6 +142,13 @@ a b ca ac";
                 P("0 2 7 0", 5));
         }
 
+        [TestMethod]
+        public void TestDay6B()
+        {
+            Try<Day6B>(
+                P("0 2 7 0", 4));
+        }
+
         private static KeyValuePair<TKey, TValue> P<TKey, TValue>(TKey key, TValue value)
         {
             return new KeyValuePair<TKey, TValue>(key, value);
