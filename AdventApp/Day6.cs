@@ -29,19 +29,17 @@
                 this.banks = inputBanks.ToArray();
             }
 
-            public int Reallocate()
+            public Cycles Reallocate()
             {
-                HashSet<Guid> states = new HashSet<Guid>();
-                int cycles = 0;
+                Cycles cycles = new Cycles();
                 do
                 {
-                    if (!states.Add(new Guid(this.banks)))
+                    if (!cycles.Add(this.banks))
                     {
                         return cycles;
                     }
 
                     this.ReallocateInner();
-                    ++cycles;
                 }
                 while (true);
             }
@@ -78,5 +76,28 @@
             }
         }
 
+        protected sealed class Cycles
+        {
+            private readonly Dictionary<Guid, int> states;
+
+            public Cycles()
+            {
+                this.states = new Dictionary<Guid, int>();
+            }
+
+            public int Count { get; private set; }
+
+            public bool Add(byte[] banks)
+            {
+                Guid key = new Guid(banks);
+                if (this.states.ContainsKey(key))
+                {
+                    return false;
+                }
+
+                this.states.Add(key, ++this.Count);
+                return true;
+            }
+        }
     }
 }

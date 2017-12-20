@@ -4,7 +4,7 @@
     {
         protected override int RunCore(string input)
         {
-            return new MemoryBanks(input).Reallocate();
+            return new MemoryBanks(input).Reallocate().Count;
         }
     }
 }
