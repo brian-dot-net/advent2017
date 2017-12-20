@@ -111,6 +111,18 @@ a b ca ac";
                 P(many, 2));
         }
 
+        [TestMethod]
+        public void TestDay5A()
+        {
+            string i1 = @"0
+3
+0
+1
+-3";
+            Try<Day5A>(
+                P(i1, 5));
+        }
+
         private static KeyValuePair<TKey, TValue> P<TKey, TValue>(TKey key, TValue value)
         {
             return new KeyValuePair<TKey, TValue>(key, value);
