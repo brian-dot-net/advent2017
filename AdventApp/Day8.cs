@@ -1013,22 +1013,21 @@ l dec 367 if uix >= -3376";
         protected sealed class Instructions
         {
             private readonly Instruction[] items;
-            private readonly Registers registers;
 
             public Instructions(string input)
             {
-                this.registers = new Registers();
                 this.items = Lines.From(input).Select(Instruction.Parse).ToArray();
             }
 
-            public int Run()
+            public Registers Run()
             {
+                Registers registers = new Registers();
                 foreach (Instruction i in this.items)
                 {
                     i.Run(registers);
                 }
 
-                return registers.MaxValue();
+                return registers;
             }
 
             private sealed class Instruction
@@ -1093,35 +1092,47 @@ l dec 367 if uix >= -3376";
                     }
                 }
             }
+        }
 
-            private sealed class Registers
+        protected sealed class Registers
+        {
+            private readonly Dictionary<string, int> values;
+
+            public Registers()
             {
-                private readonly Dictionary<string, int> values;
+                this.values = new Dictionary<string, int>();
+            }
 
-                public Registers()
+            public int MaxValueEver { get; private set; }
+
+            public int MaxValue() => this.values.Values.Max();
+
+            public void Increment(string register, int value)
+            {
+                int start = this.Get(register);
+                this.values[register] = this.CheckMax(start + value);
+            }
+
+            public int Get(string register)
+            {
+                int value;
+                if (!this.values.TryGetValue(register, out value))
                 {
-                    this.values = new Dictionary<string, int>();
+                    value = 0;
+                    this.values.Add(register, value);
                 }
 
-                public int MaxValue() => this.values.Values.Max();
+                return value;
+            }
 
-                public void Increment(string register, int value)
+            private int CheckMax(int value)
+            {
+                if (value > this.MaxValueEver)
                 {
-                    int start = this.Get(register);
-                    this.values[register] = start + value;
+                    this.MaxValueEver = value;
                 }
 
-                public int Get(string register)
-                {
-                    int value;
-                    if (!this.values.TryGetValue(register, out value))
-                    {
-                        value = 0;
-                        this.values.Add(register, value);
-                    }
-
-                    return value;
-                }
+                return value;
             }
         }
     }

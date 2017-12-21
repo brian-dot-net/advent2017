@@ -200,6 +200,17 @@ c inc -20 if c == 10";
                 P(i1, 1));
         }
 
+        [TestMethod]
+        public void TestDay8B()
+        {
+            string i1 = @"b inc 5 if a > 1
+a inc 1 if b < 5
+c dec -10 if a >= 1
+c inc -20 if c == 10";
+            Try<Day8B>(
+                P(i1, 10));
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());
