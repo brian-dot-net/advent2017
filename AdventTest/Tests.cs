@@ -189,6 +189,17 @@ cntj (57)";
                 P(i1, "ugml=60"));
         }
 
+        [TestMethod]
+        public void TestDay8A()
+        {
+            string i1 = @"b inc 5 if a > 1
+a inc 1 if b < 5
+c dec -10 if a >= 1
+c inc -20 if c == 10";
+            Try<Day8A>(
+                P(i1, 1));
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());
