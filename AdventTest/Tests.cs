@@ -149,6 +149,26 @@ a b ca ac";
                 P("0 2 7 0", 4));
         }
 
+        [TestMethod]
+        public void TestDay7A()
+        {
+            string i1 = @"pbga (66)
+xhth (57)
+ebii (61)
+havc (66)
+ktlj (57)
+fwft (72) -> ktlj, cntj, xhth
+qoyq (66)
+padx (45) -> pbga, havc, qoyq
+tknk (41) -> ugml, padx, fwft
+jptl (61)
+ugml (68) -> gyxo, ebii, jptl
+gyxo (61)
+cntj (57)";
+            Try<Day7A>(
+                P(i1, "tknk"));
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());
