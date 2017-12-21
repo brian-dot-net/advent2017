@@ -169,6 +169,26 @@ cntj (57)";
                 P(i1, "tknk"));
         }
 
+        [TestMethod]
+        public void TestDay7B()
+        {
+            string i1 = @"pbga (66)
+xhth (57)
+ebii (61)
+havc (66)
+ktlj (57)
+fwft (72) -> ktlj, cntj, xhth
+qoyq (66)
+padx (45) -> pbga, havc, qoyq
+tknk (41) -> ugml, padx, fwft
+jptl (61)
+ugml (68) -> gyxo, ebii, jptl
+gyxo (61)
+cntj (57)";
+            Try<Day7B>(
+                P(i1, "ugml=60"));
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());

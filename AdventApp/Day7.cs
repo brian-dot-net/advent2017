@@ -1315,9 +1315,86 @@ wnwzo (37)";
 
             public string Name { get; private set; }
 
-            public string Weight { get; set; }
+            public int Weight { get; set; }
 
             public void AddChild(ProgramNode child) => this.children.Add(child);
+
+            public string GetImbalance()
+            {
+                Tuple<int, ProgramNode, int> current = Tuple.Create(0, this, 0);
+                while (true)
+                {
+                    Tuple<int, ProgramNode, int> next = current.Item2.GetImbalanceInner();
+                    if (next.Item2 == null)
+                    {
+                        ProgramNode badNode = current.Item2;
+                        int requiredWeight = badNode.Weight + current.Item1 - current.Item3;
+                        return badNode.Name + "=" + requiredWeight;
+                    }
+
+                    current = next;
+                }
+            }
+
+            private int TotalWeight()
+            {
+                return this.children.Select(c => c.TotalWeight()).Sum() + this.Weight;
+            }
+
+            private Tuple<int, ProgramNode, int> GetImbalanceInner()
+            {
+                ProgramNode badNode = null;
+                if (this.children.Count < 3)
+                {
+                    return Tuple.Create(0, badNode, 0);
+                }
+
+                int[] weights = new int[3];
+                for (int i = 0; i < 3; ++i)
+                {
+                    weights[i] = this.children[i].TotalWeight();
+                }
+
+                int bad = -1;
+                int good = 0;
+                if (weights[0] != weights[1])
+                {
+                    bad = (weights[0] == weights[2]) ? 1 : 0;
+                    good = bad + 1;
+                }
+                else if (weights[0] != weights[2])
+                {
+                    bad = 2;
+                }
+
+                int goodWeight = weights[good];
+                int badWeight;
+                if (bad == -1)
+                {
+                    badWeight = 0;
+                    for (int i = 3; i < this.children.Count; ++i)
+                    {
+                        int weight = this.children[i].TotalWeight();
+                        if (goodWeight != weight)
+                        {
+                            bad = i;
+                            badWeight = weight;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    badWeight = weights[bad];
+                }
+
+                if (bad != -1)
+                {
+                    badNode = this.children[bad];
+                }
+
+                return Tuple.Create(goodWeight, badNode, badWeight);
+            }
         }
 
         protected sealed class ProgramTree
@@ -1360,7 +1437,7 @@ wnwzo (37)";
                 private int Add(ProgramInfo info)
                 {
                     ProgramNode node = this.Get(info.Name);
-                    node.Weight = info.Weight;
+                    node.Weight = int.Parse(info.Weight.Trim('(', ')'));
                     int childCount = 0;
                     foreach (string child in info.Children)
                     {
@@ -1395,7 +1472,7 @@ wnwzo (37)";
                     ProgramInfo info = new ProgramInfo
                     {
                         Name = fields[0],
-                        Weight = fields[1],
+                        Weight = fields[1]
                     };
 
                     if (fields.Length == 4)

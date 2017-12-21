@@ -21,6 +21,7 @@
             Day.Show<Day6A>(o);
             Day.Show<Day6B>(o);
             Day.Show<Day7A>(o);
+            Day.Show<Day7B>(o);
         }
     }
 }
