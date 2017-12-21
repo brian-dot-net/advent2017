@@ -23,7 +23,7 @@
 219 3933 6626 2137 3222 1637 5312 238 5895 222 154 6649 169 6438 3435 4183
 37 1069 166 1037 172 258 1071 90 497 1219 145 1206 143 153 1067 510";
 
-        public int Run(string input) => this.RunCore(input);
+        public string Run(string input) => this.RunCore(input).ToString();
 
         protected static IEnumerable<int[]> Rows(string input) => Lines.From(input).Select(l => l.Split()).Select(r => AsInts(r));
 

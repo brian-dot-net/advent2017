@@ -8,7 +8,7 @@
     {
         public string DefaultInput => @"11 11 13 7 0 15 5 5 4 4 1 1 7 1 15 11";
 
-        public int Run(string input) => this.RunCore(input);
+        public string Run(string input) => this.RunCore(input).ToString();
 
         protected abstract int RunCore(string input);
 

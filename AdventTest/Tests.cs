@@ -19,7 +19,7 @@
                 Day.Show<ADay>(w);
             }
 
-            output.ToString().Should().Match("ADay => -1 (* ms elapsed)\r\n");
+            output.ToString().Should().Match("ADay => x-1 (* ms elapsed)\r\n");
         }
 
         [TestMethod]
@@ -149,17 +149,17 @@ a b ca ac";
                 P("0 2 7 0", 4));
         }
 
-        private static KeyValuePair<TKey, TValue> P<TKey, TValue>(TKey key, TValue value)
+        private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
-            return new KeyValuePair<TKey, TValue>(key, value);
+            return new KeyValuePair<string, string>(key, value.ToString());
         }
 
-        private static void Try<TDay>(params KeyValuePair<string, int>[] pairs) where TDay : ICanRun, new()
+        private static void Try<TDay>(params KeyValuePair<string, string>[] pairs) where TDay : ICanRun, new()
         {
-            foreach (KeyValuePair<string, int> pair in pairs)
+            foreach (KeyValuePair<string, string> pair in pairs)
             {
                 string input = pair.Key;
-                int result = -1;
+                string result = string.Empty;
                 Action act = () => result = new TDay().Run(pair.Key);
 
                 act.ShouldNotThrow("{0} was the input", input);
@@ -171,9 +171,9 @@ a b ca ac";
         {
             public string DefaultInput => "-1";
 
-            public int Run(string input)
+            public string Run(string input)
             {
-                return int.Parse(input);
+                return "x" + int.Parse(input);
             }
         }
     }

@@ -4,6 +4,6 @@
     {
         string DefaultInput { get; }
 
-        int Run(string input);
+        string Run(string input);
     }
 }

@@ -9,7 +9,7 @@
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
             TDay day = new TDay();
-            int result = day.Run(day.DefaultInput);
+            string result = day.Run(day.DefaultInput);
             stopwatch.Stop();
             w.WriteLine("{0} => {1} ({2} ms elapsed)", typeof(TDay).Name, result, stopwatch.ElapsedMilliseconds);
         }

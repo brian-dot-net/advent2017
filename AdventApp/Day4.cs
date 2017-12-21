@@ -518,7 +518,7 @@ gye efwwwiv kyv zmtcgmi ifwvwew
 dflx gdtb jyoj jyoj dflx aqhycgi xffnn
 inc mpys mzqmcwx vryz ibqrzc pmsy fat rojpxwy rcbqzi gjef";
 
-        public int Run(string input) => this.RunCore(input);
+        public string Run(string input) => this.RunCore(input).ToString();
 
         protected abstract int RunCore(string input);
 
