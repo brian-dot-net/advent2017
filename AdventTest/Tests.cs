@@ -211,6 +211,20 @@ c inc -20 if c == 10";
                 P(i1, 10));
         }
 
+        [TestMethod]
+        public void TestDay9A()
+        {
+            Try<Day9A>(
+                P("{}", 1),
+                P("{{{}}}", 6),
+                P("{{},{}}", 5),
+                P("{{{},{},{{}}}}", 16),
+                P("{<a>,<a>,<a>,<a>}", 1),
+                P("{{<ab>},{<ab>},{<ab>},{<ab>}}", 9),
+                P("{{<!!>},{<!!>},{<!!>},{<!!>}}", 9),
+                P("{{<a!>},{<a!>},{<a!>},{<ab>}}", 3));
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());

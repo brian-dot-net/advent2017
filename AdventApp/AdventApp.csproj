@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Day9A.cs" />
+    <Compile Include="Day9.cs" />
     <Compile Include="Day8B.cs" />
     <Compile Include="Day8A.cs" />
     <Compile Include="Day8.cs" />
