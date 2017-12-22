@@ -22,9 +22,11 @@
 
         public IEnumerable<char> Chars() => this.raw;
 
-        public Input[] Fields() => this.Fields(int.MaxValue);
+        public Input[] Fields() => this.Fields(' ');
 
-        public Input[] Fields(int max) => this.raw.Split(new char[] { ' ' }, max).Select(s => new Input(s)).ToArray();
+        public Input[] Fields(char separator) => this.Fields(separator, int.MaxValue);
+
+        public Input[] Fields(int max) => this.Fields(' ', max);
 
         public byte[] AsciiBytes() => Encoding.ASCII.GetBytes(this.raw);
 
@@ -46,5 +48,7 @@
                 while (next != null);
             }
         }
+
+        private Input[] Fields(char separator, int max) => this.raw.Split(new char[] { separator }, max).Select(s => new Input(s)).ToArray();
     }
 }
