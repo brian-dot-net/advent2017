@@ -3,15 +3,20 @@
     using System.Diagnostics;
     using System.IO;
 
-    public static class Day
+    public static class Day<TDay> where TDay : ICanRun, new()
     {
-        public static void Show<TDay>(TextWriter w) where TDay : ICanRun, new()
+        public static void Show(TextWriter w)
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
-            TDay day = new TDay();
-            string result = day.Run(day.DefaultInput);
+            string result = Run();
             stopwatch.Stop();
             w.WriteLine("{0} => {1} ({2} ms elapsed)", typeof(TDay).Name, result, stopwatch.ElapsedMilliseconds);
+        }
+
+        public static string Run()
+        {
+            TDay day = new TDay();
+            return day.Run(day.DefaultInput);
         }
     }
 }

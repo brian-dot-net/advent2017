@@ -16,8 +16,8 @@
             StringBuilder output = new StringBuilder();
             using (TextWriter w = new StringWriter(output))
             {
-                Day.Show<ADay>(w);
-                Day.Show<BDay>(w);
+                Day<ADay>.Show(w);
+                Day<BDay>.Show(w);
             }
 
             output.ToString().Should().Match(
