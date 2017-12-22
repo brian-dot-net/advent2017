@@ -4,54 +4,52 @@
 
     public abstract class Day10 : ICanRun
     {
-        public string DefaultInput => "256:106,16,254,226,55,2,1,166,177,247,93,0,255,228,60,36";
+        public string DefaultInput => "106,16,254,226,55,2,1,166,177,247,93,0,255,228,60,36";
 
         public string Run(string input) => this.RunCore(input).ToString();
 
-        protected abstract int RunCore(string input);
+        protected abstract string RunCore(string input);
 
         protected sealed class Knot
         {
-            private readonly int[] list;
-            private readonly int[] lengths;
+            private readonly int length;
 
-            public Knot(string input)
+            public Knot(int length)
             {
-                string[] fields = input.Split(':');
-                this.list = Enumerable.Range(0, int.Parse(fields[0])).ToArray();
-                this.lengths = fields[1].Split(',').Select(int.Parse).ToArray();
+                this.length = length;
             }
 
-            public int Hash()
+            public byte[] Hash(byte[] bytes)
             {
+                byte[] result = Enumerable.Range(0, this.length).Select(b => (byte)b).ToArray();
                 int skip = 0;
                 int i = 0;
-                foreach (int r in this.lengths)
+                foreach (int r in bytes)
                 {
-                    this.Reverse(i, r);
-                    i = (i + r + skip) % this.list.Length;
+                    Reverse(result, i, r);
+                    i = (i + r + skip) % result.Length;
                     ++skip;
                 }
 
-                return this.list[0] * this.list[1];
+                return result;
             }
 
-            private void Reverse(int start, int length)
+            private static void Reverse(byte[] result, int start, int length)
             {
                 for (int i = 0; i < length / 2; ++i)
                 {
-                    this.Swap(start + i, start + length - i - 1);
+                    Swap(result, start + i, start + length - i - 1);
                 }
             }
 
-            private void Swap(int i, int j)
+            private static void Swap(byte[] result, int i, int j)
             {
-                int n = this.list.Length;
+                int n = result.Length;
                 i = i % n;
                 j = j % n;
-                int t = this.list[i];
-                this.list[i] = this.list[j];
-                this.list[j] = t;
+                byte t = result[i];
+                result[i] = result[j];
+                result[j] = t;
             }
         }
     }
