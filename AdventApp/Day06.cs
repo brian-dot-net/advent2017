@@ -13,7 +13,7 @@
 
             public MemoryBanks(Input input)
             {
-                List<byte> inputBanks = input.Fields().Select(n => byte.Parse(n)).ToList();
+                List<byte> inputBanks = input.Fields().Select(f => f.Byte()).ToList();
                 this.length = inputBanks.Count;
                 for (int i = inputBanks.Count; i < 16; ++i)
                 {

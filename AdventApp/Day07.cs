@@ -169,18 +169,18 @@
                     return node;
                 }
 
-                private static ProgramInfo Parse(string line)
+                private static ProgramInfo Parse(Input line)
                 {
-                    string[] fields = line.Split(new char[] { ' ' }, 4);
+                    Input[] fields = line.Fields(4);
                     ProgramInfo info = new ProgramInfo
                     {
-                        Name = fields[0],
-                        Weight = fields[1]
+                        Name = fields[0].ToString(),
+                        Weight = fields[1].ToString()
                     };
 
                     if (fields.Length == 4)
                     {
-                        foreach (string child in fields[3].Split(new char[] { ',' }))
+                        foreach (string child in fields[3].ToString().Split(new char[] { ',' }))
                         {
                             info.Children.Add(child.Trim());
                         }

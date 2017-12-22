@@ -14,7 +14,7 @@
 
             public JumpTable(Input input, Func<int, int> incJump)
             {
-                this.jumps = input.Lines().Select(n => int.Parse(n)).ToList().AsReadOnly();
+                this.jumps = input.Lines().Select(l => l.Integer()).ToList().AsReadOnly();
                 this.incJump = incJump;
             }
 

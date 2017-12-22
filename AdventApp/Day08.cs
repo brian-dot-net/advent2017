@@ -38,11 +38,11 @@
                     this.cond = cond;
                 }
 
-                public static Instruction Parse(string input)
+                public static Instruction Parse(Input input)
                 {
-                    string[] fields = input.Split(new char[] { ' ' }, 4);
-                    int sign = fields[1] == "inc" ? 1 : -1;
-                    return new Instruction(fields[0], sign * int.Parse(fields[2]), Condition.Parse(fields[3]));
+                    Input[] fields = input.Fields(4);
+                    int sign = fields[1].ToString() == "inc" ? 1 : -1;
+                    return new Instruction(fields[0].ToString(), sign * fields[2].Integer(), Condition.Parse(fields[3].ToString()));
                 }
 
                 public void Run(Registers registers)

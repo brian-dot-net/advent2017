@@ -5,12 +5,12 @@
 
     public abstract class Day04 : DayBase<int>
     {
-        protected static bool ValidPassphrase(string line, bool allowAnagrams)
+        protected static bool ValidPassphrase(Input line, bool allowAnagrams)
         {
             HashSet<string> words = new HashSet<string>();
-            foreach (string word in line.Split())
+            foreach (Input word in line.Fields())
             {
-                if (!words.Add(Translate(word, allowAnagrams)))
+                if (!words.Add(Translate(word.ToString(), allowAnagrams)))
                 {
                     return false;
                 }
