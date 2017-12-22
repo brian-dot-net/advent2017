@@ -6,7 +6,7 @@
 
     public abstract class Day03 : DayBase<int>
     {
-        public override string DefaultInput => @"265149";
+        public override string DefaultInput => null;
 
         private static Pair P(int x, int y) => new Pair(x, y);
 

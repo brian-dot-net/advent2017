@@ -4,7 +4,7 @@
 
     public abstract class Day10 : DayBase<string>
     {
-        public override string DefaultInput => "106,16,254,226,55,2,1,166,177,247,93,0,255,228,60,36";
+        public override string DefaultInput => null;
 
         protected sealed class Knot
         {
