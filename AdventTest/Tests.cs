@@ -16,13 +16,13 @@
             StringBuilder output = new StringBuilder();
             using (TextWriter w = new StringWriter(output))
             {
-                Day<ADay>.Show(w);
-                Day<BDay>.Show(w);
+                Day<ADayZ>.Show(w);
+                Day<BDayX>.Show(w);
             }
 
             output.ToString().Should().Match(
-                "ADay => x-1 (* ms elapsed)\r\n" +
-                "BDay => 500 (* ms elapsed)\r\n");
+                "ADayZ => x-1 (* ms elapsed)\r\n" +
+                "BDayX => 500 (* ms elapsed)\r\n");
         }
 
         [TestMethod]
@@ -405,14 +405,14 @@ c inc -20 if c == 10";
             }
         }
 
-        private sealed class ADay : DayBase<string>
+        private sealed class ADayZ : DayBase<string>
         {
             public override string DefaultInput => null;
 
             protected override string RunCore(string input) => "x" + int.Parse(input);
         }
 
-        private sealed class BDay : DayBase<int>
+        private sealed class BDayX : DayBase<int>
         {
             public override string DefaultInput => null;
 

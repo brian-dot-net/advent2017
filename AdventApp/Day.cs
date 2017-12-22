@@ -21,7 +21,9 @@
             if (input == null)
             {
                 Assembly asm = typeof(TDay).Assembly;
-                string inputResource = typeof(TDay).Namespace + "." + typeof(TDay).Name + ".txt";
+                string baseName = typeof(TDay).Name;
+                baseName = baseName.Substring(0, baseName.Length - 1);
+                string inputResource = typeof(TDay).Namespace + "." + baseName + ".txt";
                 using (StreamReader reader = new StreamReader(asm.GetManifestResourceStream(inputResource)))
                 {
                     input = reader.ReadToEnd();
