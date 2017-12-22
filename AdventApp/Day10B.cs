@@ -8,7 +8,7 @@
     {
         protected override string RunCore(Input input)
         {
-            byte[] bytes = Encoding.ASCII.GetBytes(input.Raw).Concat(new byte[] { 17, 31, 73, 47, 23 }).ToArray();
+            byte[] bytes = input.AsciiBytes().Concat(new byte[] { 17, 31, 73, 47, 23 }).ToArray();
             byte[] result = new Knot(256).Hash(64, bytes);
             result = Compact(result);
             return BitConverter.ToString(result).Replace("-", string.Empty).ToLowerInvariant();

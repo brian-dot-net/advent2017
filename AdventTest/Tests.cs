@@ -354,7 +354,7 @@ c inc -20 if c == 10";
         public void Day10ATests()
         {
             Do<Day10A>.Tests(
-                P("5:3,4,1,5", 12));
+                P("5 3,4,1,5", 12));
         }
 
         [TestMethod]
@@ -407,7 +407,7 @@ c inc -20 if c == 10";
 
         private sealed class ADayZ : DayBase<string>
         {
-            protected override string RunCore(Input input) => "x" + input.Raw;
+            protected override string RunCore(Input input) => "x" + input;
         }
 
         private sealed class BDayX : DayBase<int>

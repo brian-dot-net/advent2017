@@ -6,7 +6,7 @@
     {
         protected override string RunCore(Input input)
         {
-            string[] fields = input.Raw.Split(':');
+            string[] fields = input.Fields();
             if (fields.Length == 1)
             {
                 fields = new string[] { "256", fields[0] };

@@ -4,6 +4,6 @@
 
     public sealed class Day01A : Day01
     {
-        protected override int RunCore(Input input) => input.Raw.Zip(Rotate(input.Raw, 1), Matching).Sum();
+        protected override int RunCore(Input input) => input.Chars().Zip(Rotate(input.Chars(), 1), Matching).Sum();
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace Advent
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     public abstract class Day09 : DayBase<int>
     {
@@ -86,12 +87,12 @@
                 private sealed class Parser
                 {
                     private readonly Stack<Group> stack;
-                    private readonly string input;
+                    private readonly char[] input;
 
                     public Parser(Input input)
                     {
                         this.stack = new Stack<Group>();
-                        this.input = input.Raw;
+                        this.input = input.Chars().ToArray();
                     }
 
                     public Group Run()
