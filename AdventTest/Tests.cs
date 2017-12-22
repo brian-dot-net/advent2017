@@ -26,9 +26,9 @@
         }
 
         [TestMethod]
-        public void TestDay01A()
+        public void Day01ATests()
         {
-            Try<Day01A>(
+            Do<Day01A>.Tests(
                 P("1122", 3),
                 P("1111", 4),
                 P("1234", 0),
@@ -36,9 +36,9 @@
         }
 
         [TestMethod]
-        public void TestDay01B()
+        public void Day01BTests()
         {
-            Try<Day01B>(
+            Do<Day01B>.Tests(
                 P("1212", 6),
                 P("1221", 0),
                 P("123425", 4),
@@ -47,27 +47,27 @@
         }
 
         [TestMethod]
-        public void TestDay02A()
+        public void Day02ATests()
         {
             string i1 = @"5 1 9 5
 7 5 3
 2 4 6 8";
-            Try<Day02A>(P(i1, 18));
+            Do<Day02A>.Tests(P(i1, 18));
         }
 
         [TestMethod]
-        public void TestDay02B()
+        public void Day02BTests()
         {
             string i1 = @"5 9 2 8
 9 4 7 3
 3 8 6 5";
-            Try<Day02B>(P(i1, 9));
+            Do<Day02B>.Tests(P(i1, 9));
         }
 
         [TestMethod]
-        public void TestDay03A()
+        public void Day03ATests()
         {
-            Try<Day03A>(
+            Do<Day03A>.Tests(
                 P("1", 0),
                 P("12", 3),
                 P("23", 2),
@@ -75,9 +75,9 @@
         }
 
         [TestMethod]
-        public void TestDay03B()
+        public void Day03BTests()
         {
-            Try<Day03B>(
+            Do<Day03B>.Tests(
                 P("1", 2),
                 P("12", 23),
                 P("23", 25),
@@ -85,13 +85,13 @@
         }
 
         [TestMethod]
-        public void TestDay04A()
+        public void Day04ATests()
         {
             string many = @"a b c d
 e f g h
 a a b c
 a b c c";
-            Try<Day04A>(
+            Do<Day04A>.Tests(
                 P("aa bb cc dd ee", 1),
                 P("aa bb cc dd aa", 0),
                 P("aa bb cc dd aaa", 1),
@@ -99,13 +99,13 @@ a b c c";
         }
 
         [TestMethod]
-        public void TestDay04B()
+        public void Day04BTests()
         {
             string many = @"a b c d
 e f g h
 a a b c
 a b ca ac";
-            Try<Day04B>(
+            Do<Day04B>.Tests(
                 P("abcde fghij", 1),
                 P("abcde xyz ecdab", 0),
                 P("a ab abc abd abf abj", 1),
@@ -115,45 +115,45 @@ a b ca ac";
         }
 
         [TestMethod]
-        public void TestDay05A()
+        public void Day05ATests()
         {
             string i1 = @"0
 3
 0
 1
 -3";
-            Try<Day05A>(
+            Do<Day05A>.Tests(
                 P(i1, 5));
         }
 
         [TestMethod]
-        public void TestDay05B()
+        public void Day05BTests()
         {
             string i1 = @"0
 3
 0
 1
 -3";
-            Try<Day05B>(
+            Do<Day05B>.Tests(
                 P(i1, 10));
         }
 
         [TestMethod]
-        public void TestDay06A()
+        public void Day06ATests()
         {
-            Try<Day06A>(
+            Do<Day06A>.Tests(
                 P("0 2 7 0", 5));
         }
 
         [TestMethod]
-        public void TestDay06B()
+        public void Day06BTests()
         {
-            Try<Day06B>(
+            Do<Day06B>.Tests(
                 P("0 2 7 0", 4));
         }
 
         [TestMethod]
-        public void TestDay07A()
+        public void Day07ATests()
         {
             string i1 = @"pbga (66)
 xhth (57)
@@ -168,12 +168,12 @@ jptl (61)
 ugml (68) -> gyxo, ebii, jptl
 gyxo (61)
 cntj (57)";
-            Try<Day07A>(
+            Do<Day07A>.Tests(
                 P(i1, "tknk"));
         }
 
         [TestMethod]
-        public void TestDay07B()
+        public void Day07BTests()
         {
             string i1 = @"pbga (66)
 xhth (57)
@@ -188,36 +188,36 @@ jptl (61)
 ugml (68) -> gyxo, ebii, jptl
 gyxo (61)
 cntj (57)";
-            Try<Day07B>(
+            Do<Day07B>.Tests(
                 P(i1, "ugml=60"));
         }
 
         [TestMethod]
-        public void TestDay08A()
+        public void Day08ATests()
         {
             string i1 = @"b inc 5 if a > 1
 a inc 1 if b < 5
 c dec -10 if a >= 1
 c inc -20 if c == 10";
-            Try<Day08A>(
+            Do<Day08A>.Tests(
                 P(i1, 1));
         }
 
         [TestMethod]
-        public void TestDay08B()
+        public void Day08BTests()
         {
             string i1 = @"b inc 5 if a > 1
 a inc 1 if b < 5
 c dec -10 if a >= 1
 c inc -20 if c == 10";
-            Try<Day08B>(
+            Do<Day08B>.Tests(
                 P(i1, 10));
         }
 
         [TestMethod]
-        public void TestDay09A()
+        public void Day09ATests()
         {
-            Try<Day09A>(
+            Do<Day09A>.Tests(
                 P("{}", 1),
                 P("{{{}}}", 6),
                 P("{{},{}}", 5),
@@ -229,9 +229,9 @@ c inc -20 if c == 10";
         }
 
         [TestMethod]
-        public void TestDay09B()
+        public void Day09BTests()
         {
-            Try<Day09B>(
+            Do<Day09B>.Tests(
                 P("{<>}", 0),
                 P("{<random characters>}", 17),
                 P("{<<<<>}", 3),
@@ -242,16 +242,16 @@ c inc -20 if c == 10";
         }
 
         [TestMethod]
-        public void TestDay10A()
+        public void Day10ATests()
         {
-            Try<Day10A>(
+            Do<Day10A>.Tests(
                 P("5:3,4,1,5", 12));
         }
 
         [TestMethod]
-        public void TestDay10B()
+        public void Day10BTests()
         {
-            Try<Day10B>(
+            Do<Day10B>.Tests(
                 P(string.Empty, "a2582a3a0e66e6e86e3812dcb672a272"),
                 P("AoC 2017", "33efeb34ea91902bb2f59c9920caa6cd"),
                 P("1,2,3", "3efbe78a8d82f29979031a4aa0b16a9d"),
@@ -263,16 +263,19 @@ c inc -20 if c == 10";
             return new KeyValuePair<string, string>(key, value.ToString());
         }
 
-        private static void Try<TDay>(params KeyValuePair<string, string>[] pairs) where TDay : ICanRun, new()
+        private static class Do<TDay> where TDay : ICanRun, new()
         {
-            foreach (KeyValuePair<string, string> pair in pairs)
+            public static void Tests(params KeyValuePair<string, string>[] pairs)
             {
-                string input = pair.Key;
-                string result = string.Empty;
-                Action act = () => result = new TDay().Run(pair.Key);
+                foreach (KeyValuePair<string, string> pair in pairs)
+                {
+                    string input = pair.Key;
+                    string result = string.Empty;
+                    Action act = () => result = new TDay().Run(pair.Key);
 
-                act.ShouldNotThrow("{0} was the input", input);
-                result.Should().Be(pair.Value, "{0} was the input", input);
+                    act.ShouldNotThrow("{0} was the input", input);
+                    result.Should().Be(pair.Value, "{0} was the input", input);
+                }
             }
         }
 
