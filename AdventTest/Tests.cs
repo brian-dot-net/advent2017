@@ -36,6 +36,12 @@
         }
 
         [TestMethod]
+        public void Day01ASolution()
+        {
+            Do<Day01A>.Solution("1069");
+        }
+
+        [TestMethod]
         public void Day01BTests()
         {
             Do<Day01B>.Tests(
@@ -44,6 +50,12 @@
                 P("123425", 4),
                 P("123123", 12),
                 P("12131415", 4));
+        }
+
+        [TestMethod]
+        public void Day01BSolution()
+        {
+            Do<Day01B>.Solution("1268");
         }
 
         [TestMethod]
@@ -56,12 +68,24 @@
         }
 
         [TestMethod]
+        public void Day02ASolution()
+        {
+            Do<Day02A>.Solution("51833");
+        }
+
+        [TestMethod]
         public void Day02BTests()
         {
             string i1 = @"5 9 2 8
 9 4 7 3
 3 8 6 5";
             Do<Day02B>.Tests(P(i1, 9));
+        }
+
+        [TestMethod]
+        public void Day02BSolution()
+        {
+            Do<Day02B>.Solution("288");
         }
 
         [TestMethod]
@@ -75,6 +99,12 @@
         }
 
         [TestMethod]
+        public void Day03ASolution()
+        {
+            Do<Day03A>.Solution("438");
+        }
+
+        [TestMethod]
         public void Day03BTests()
         {
             Do<Day03B>.Tests(
@@ -82,6 +112,12 @@
                 P("12", 23),
                 P("23", 25),
                 P("747", 806));
+        }
+
+        [TestMethod]
+        public void Day03BSolution()
+        {
+            Do<Day03B>.Solution("266330");
         }
 
         [TestMethod]
@@ -96,6 +132,12 @@ a b c c";
                 P("aa bb cc dd aa", 0),
                 P("aa bb cc dd aaa", 1),
                 P(many, 2));
+        }
+
+        [TestMethod]
+        public void Day04ASolution()
+        {
+            Do<Day04A>.Solution("325");
         }
 
         [TestMethod]
@@ -115,6 +157,12 @@ a b ca ac";
         }
 
         [TestMethod]
+        public void Day04BSolution()
+        {
+            Do<Day04B>.Solution("119");
+        }
+
+        [TestMethod]
         public void Day05ATests()
         {
             string i1 = @"0
@@ -124,6 +172,12 @@ a b ca ac";
 -3";
             Do<Day05A>.Tests(
                 P(i1, 5));
+        }
+
+        [TestMethod]
+        public void Day05ASolution()
+        {
+            Do<Day05A>.Solution("342669");
         }
 
         [TestMethod]
@@ -139,10 +193,22 @@ a b ca ac";
         }
 
         [TestMethod]
+        public void Day05BSolution()
+        {
+            Do<Day05B>.Solution("25136209");
+        }
+
+        [TestMethod]
         public void Day06ATests()
         {
             Do<Day06A>.Tests(
                 P("0 2 7 0", 5));
+        }
+
+        [TestMethod]
+        public void Day06ASolution()
+        {
+            Do<Day06A>.Solution("4074");
         }
 
         [TestMethod]
@@ -151,6 +217,13 @@ a b ca ac";
             Do<Day06B>.Tests(
                 P("0 2 7 0", 4));
         }
+
+        [TestMethod]
+        public void Day06BSolution()
+        {
+            Do<Day06B>.Solution("2793");
+        }
+
 
         [TestMethod]
         public void Day07ATests()
@@ -170,6 +243,12 @@ gyxo (61)
 cntj (57)";
             Do<Day07A>.Tests(
                 P(i1, "tknk"));
+        }
+
+        [TestMethod]
+        public void Day07ASolution()
+        {
+            Do<Day07A>.Solution("ahnofa");
         }
 
         [TestMethod]
@@ -193,6 +272,12 @@ cntj (57)";
         }
 
         [TestMethod]
+        public void Day07BSolution()
+        {
+            Do<Day07B>.Solution("ltleg=802");
+        }
+
+        [TestMethod]
         public void Day08ATests()
         {
             string i1 = @"b inc 5 if a > 1
@@ -204,6 +289,12 @@ c inc -20 if c == 10";
         }
 
         [TestMethod]
+        public void Day08ASolution()
+        {
+            Do<Day08A>.Solution("5849");
+        }
+
+        [TestMethod]
         public void Day08BTests()
         {
             string i1 = @"b inc 5 if a > 1
@@ -212,6 +303,12 @@ c dec -10 if a >= 1
 c inc -20 if c == 10";
             Do<Day08B>.Tests(
                 P(i1, 10));
+        }
+
+        [TestMethod]
+        public void Day08BSolution()
+        {
+            Do<Day08B>.Solution("6702");
         }
 
         [TestMethod]
@@ -229,6 +326,12 @@ c inc -20 if c == 10";
         }
 
         [TestMethod]
+        public void Day09ASolution()
+        {
+            Do<Day09A>.Solution("17390");
+        }
+
+        [TestMethod]
         public void Day09BTests()
         {
             Do<Day09B>.Tests(
@@ -242,10 +345,22 @@ c inc -20 if c == 10";
         }
 
         [TestMethod]
+        public void Day09BSolution()
+        {
+            Do<Day09B>.Solution("7825");
+        }
+
+        [TestMethod]
         public void Day10ATests()
         {
             Do<Day10A>.Tests(
                 P("5:3,4,1,5", 12));
+        }
+
+        [TestMethod]
+        public void Day10ASolution()
+        {
+            Do<Day10A>.Solution("11413");
         }
 
         [TestMethod]
@@ -256,6 +371,12 @@ c inc -20 if c == 10";
                 P("AoC 2017", "33efeb34ea91902bb2f59c9920caa6cd"),
                 P("1,2,3", "3efbe78a8d82f29979031a4aa0b16a9d"),
                 P("1,2,4", "63960835bcdc130f0b66d7ff4f6a5a8e"));
+        }
+
+        [TestMethod]
+        public void Day10BSolution()
+        {
+            Do<Day10B>.Solution("7adfd64c2a03a4968cf708d1b7fd418d");
         }
 
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
@@ -276,6 +397,11 @@ c inc -20 if c == 10";
                     act.ShouldNotThrow("{0} was the input", input);
                     result.Should().Be(pair.Value, "{0} was the input", input);
                 }
+            }
+
+            public static void Solution(string expected)
+            {
+                Day<TDay>.Run().Should().Be(expected);
             }
         }
 
