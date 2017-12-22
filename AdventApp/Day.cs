@@ -2,6 +2,7 @@
 {
     using System.Diagnostics;
     using System.IO;
+    using System.Reflection;
 
     public static class Day<TDay> where TDay : ICanRun, new()
     {
@@ -16,7 +17,18 @@
         public static string Run()
         {
             TDay day = new TDay();
-            return day.Run(day.DefaultInput);
+            string input = day.DefaultInput;
+            if (input == null)
+            {
+                Assembly asm = typeof(TDay).Assembly;
+                string inputResource = typeof(TDay).Namespace + "." + typeof(TDay).Name + ".txt";
+                using (StreamReader reader = new StreamReader(asm.GetManifestResourceStream(inputResource)))
+                {
+                    input = reader.ReadToEnd();
+                }
+            }
+
+            return day.Run(input);
         }
     }
 }

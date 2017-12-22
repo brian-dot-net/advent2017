@@ -407,14 +407,14 @@ c inc -20 if c == 10";
 
         private sealed class ADay : DayBase<string>
         {
-            public override string DefaultInput => "-1";
+            public override string DefaultInput => null;
 
             protected override string RunCore(string input) => "x" + int.Parse(input);
         }
 
         private sealed class BDay : DayBase<int>
         {
-            public override string DefaultInput => "500";
+            public override string DefaultInput => null;
 
             protected override int RunCore(string input) => int.Parse(input);
         }
