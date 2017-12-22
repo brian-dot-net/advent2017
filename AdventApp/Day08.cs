@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public abstract class Day8 : ICanRun
+    public abstract class Day08 : ICanRun
     {
         public string DefaultInput => @"hwv inc 149 if clj >= -5
 or inc 530 if hwv > 144

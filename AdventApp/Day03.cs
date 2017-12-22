@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public abstract class Day3 : ICanRun
+    public abstract class Day03 : ICanRun
     {
         public string DefaultInput => @"265149";
 

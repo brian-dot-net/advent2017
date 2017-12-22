@@ -1,10 +1,10 @@
 ﻿namespace Advent
 {
-    public class Day6A : Day6
+    public class Day08A : Day08
     {
         protected override int RunCore(string input)
         {
-            return new MemoryBanks(input).Reallocate().Count;
+            return new Instructions(input).Run().MaxValue();
         }
     }
 }

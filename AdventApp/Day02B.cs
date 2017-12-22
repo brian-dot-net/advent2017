@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
 
-    public sealed class Day2B : Day2
+    public sealed class Day02B : Day02
     {
         protected override int RunCore(string input) => Rows(input).Select(r => DivideTwo(r)).Sum();
 

@@ -5,7 +5,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public abstract class Day5 : ICanRun
+    public abstract class Day05 : ICanRun
     {
         public string DefaultInput => @"0
 1

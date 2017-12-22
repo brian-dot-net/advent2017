@@ -2,7 +2,7 @@
 {
     using System.Linq;
 
-    public sealed class Day3B : Day3
+    public sealed class Day03B : Day03
     {
         protected override int RunCore(string input)
         {

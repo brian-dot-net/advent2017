@@ -4,7 +4,7 @@
     using System.IO;
     using System.Linq;
 
-    public abstract class Day2 : ICanRun
+    public abstract class Day02 : ICanRun
     {
         public string DefaultInput => @"4168 3925 858 2203 440 185 2886 160 1811 4272 4333 2180 174 157 361 1555
 150 111 188 130 98 673 408 632 771 585 191 92 622 158 537 142

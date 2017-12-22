@@ -1,10 +1,10 @@
 ﻿namespace Advent
 {
-    public class Day7A : Day7
+    public class Day07B : Day07
     {
         protected override string RunCore(string input)
         {
-            return new ProgramTree(input).Root.Name;
+            return new ProgramTree(input).Root.GetImbalance();
         }
     }
 }

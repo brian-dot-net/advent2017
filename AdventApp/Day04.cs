@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
 
-    public abstract class Day4 : ICanRun
+    public abstract class Day04 : ICanRun
     {
         public string DefaultInput => @"nyot babgr babgr kqtu kqtu kzshonp ylyk psqk
 iix ewj rojvbkk phrij iix zuajnk tadv givslju ewj bda

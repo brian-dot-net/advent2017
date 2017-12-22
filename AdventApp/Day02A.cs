@@ -2,7 +2,7 @@
 {
     using System.Linq;
 
-    public sealed class Day2A : Day2
+    public sealed class Day02A : Day02
     {
         protected override int RunCore(string input) => Rows(input).Select(MaxDiff).Sum();
 
