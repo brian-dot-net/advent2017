@@ -238,6 +238,13 @@ c inc -20 if c == 10";
                 P("{<{o\"i!a,<{i<a>}", 10));
         }
 
+        [TestMethod]
+        public void TestDay10A()
+        {
+            Try<Day10A>(
+                P("5:3,4,1,5", 12));
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());
