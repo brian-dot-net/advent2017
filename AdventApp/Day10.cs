@@ -19,16 +19,19 @@
                 this.length = length;
             }
 
-            public byte[] Hash(byte[] bytes)
+            public byte[] Hash(int rounds, byte[] bytes)
             {
                 byte[] result = Enumerable.Range(0, this.length).Select(b => (byte)b).ToArray();
                 int skip = 0;
                 int i = 0;
-                foreach (int r in bytes)
+                for (int k = 0; k < rounds; ++k)
                 {
-                    Reverse(result, i, r);
-                    i = (i + r + skip) % result.Length;
-                    ++skip;
+                    foreach (int r in bytes)
+                    {
+                        Reverse(result, i, r);
+                        i = (i + r + skip) % result.Length;
+                        ++skip;
+                    }
                 }
 
                 return result;

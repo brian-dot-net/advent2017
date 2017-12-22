@@ -14,7 +14,7 @@
 
             int length = int.Parse(fields[0]);
             byte[] bytes = fields[1].Split(',').Select(byte.Parse).ToArray();
-            byte[] result = new Knot(length).Hash(bytes);
+            byte[] result = new Knot(length).Hash(1, bytes);
             return (result[0] * result[1]).ToString();
         }
     }
