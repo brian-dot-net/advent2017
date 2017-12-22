@@ -5,8 +5,6 @@
 
     public abstract class Day04 : DayBase<int>
     {
-        public override string DefaultInput => null;
-
         protected static bool ValidPassphrase(string line, bool allowAnagrams)
         {
             HashSet<string> words = new HashSet<string>();

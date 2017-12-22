@@ -5,8 +5,6 @@
 
     public abstract class Day02 : DayBase<int>
     {
-        public override string DefaultInput => null;
-
         protected static IEnumerable<int[]> Rows(string input) => Lines.From(input).Select(l => l.Split()).Select(r => AsInts(r));
 
         protected static int[] AsInts(string[] values)

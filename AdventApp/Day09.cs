@@ -4,8 +4,6 @@
 
     public abstract class Day09 : DayBase<int>
     {
-        public override string DefaultInput => null;
-
         protected sealed class Groups
         {
             private readonly Group root;

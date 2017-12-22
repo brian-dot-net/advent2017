@@ -6,8 +6,6 @@
 
     public abstract class Day06 : DayBase<int>
     {
-        public override string DefaultInput => null;
-
         protected sealed class MemoryBanks
         {
             private readonly int length;

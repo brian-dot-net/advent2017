@@ -4,8 +4,6 @@
 
     public abstract class Day10 : DayBase<string>
     {
-        public override string DefaultInput => null;
-
         protected sealed class Knot
         {
             private readonly int length;

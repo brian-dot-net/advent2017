@@ -6,8 +6,6 @@
 
     public abstract class Day07 : DayBase<string>
     {
-        public override string DefaultInput => null;
-
         protected sealed class ProgramNode
         {
             private readonly List<ProgramNode> children;

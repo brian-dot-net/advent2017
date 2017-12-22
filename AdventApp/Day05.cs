@@ -7,8 +7,6 @@
 
     public abstract class Day05 : DayBase<int>
     {
-        public override string DefaultInput => null;
-
         protected sealed class JumpTable : IEnumerable<int>
         {
             private readonly IReadOnlyList<int> jumps;

@@ -5,8 +5,6 @@
 
     public abstract class Day08 : DayBase<int>
     {
-        public override string DefaultInput => null;
-
         protected sealed class Instructions
         {
             private readonly Instruction[] items;
