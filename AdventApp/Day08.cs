@@ -9,9 +9,9 @@
         {
             private readonly Instruction[] items;
 
-            public Instructions(string input)
+            public Instructions(Input input)
             {
-                this.items = Lines.From(input).Select(Instruction.Parse).ToArray();
+                this.items = input.Lines().Select(Instruction.Parse).ToArray();
             }
 
             public Registers Run()

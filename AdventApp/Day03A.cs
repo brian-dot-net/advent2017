@@ -4,9 +4,9 @@
 
     public sealed class Day03A : Day03
     {
-        protected override int RunCore(string input)
+        protected override int RunCore(Input input)
         {
-            int n = int.Parse(input);
+            int n = input.Integer();
             return new Spiral(false).FirstCell(c => c.Value == n).Distance;
         }
     }

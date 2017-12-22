@@ -102,7 +102,7 @@
 
         protected sealed class ProgramTree
         {
-            public ProgramTree(string input)
+            public ProgramTree(Input input)
             {
                 this.Root = new RawProgramTree(input).FindRoot();
             }
@@ -115,13 +115,13 @@
                 private readonly HashSet<string> parentNodes;
                 private readonly HashSet<string> childNodes;
 
-                public RawProgramTree(string input)
+                public RawProgramTree(Input input)
                 {
                     this.nodes = new Dictionary<string, ProgramNode>();
                     this.parentNodes = new HashSet<string>();
                     this.childNodes = new HashSet<string>();
 
-                    foreach (ProgramInfo info in Lines.From(input).Select(Parse))
+                    foreach (ProgramInfo info in input.Lines().Select(Parse))
                     {
                         int childCount = this.Add(info);
                         if (childCount > 0)

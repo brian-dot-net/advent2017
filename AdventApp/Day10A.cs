@@ -4,9 +4,9 @@
 
     public class Day10A : Day10
     {
-        protected override string RunCore(string input)
+        protected override string RunCore(Input input)
         {
-            string[] fields = input.Split(':');
+            string[] fields = input.Raw.Split(':');
             if (fields.Length == 1)
             {
                 fields = new string[] { "256", fields[0] };

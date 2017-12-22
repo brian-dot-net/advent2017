@@ -8,7 +8,7 @@
         {
             private readonly Group root;
 
-            public Groups(string input)
+            public Groups(Input input)
             {
                 this.root = Group.Parse(input);
             }
@@ -34,7 +34,7 @@
                     }
                 }
 
-                public static Group Parse(string input)
+                public static Group Parse(Input input)
                 {
                     return new Parser(input).Run();
                 }
@@ -88,10 +88,10 @@
                     private readonly Stack<Group> stack;
                     private readonly string input;
 
-                    public Parser(string input)
+                    public Parser(Input input)
                     {
                         this.stack = new Stack<Group>();
-                        this.input = input;
+                        this.input = input.Raw;
                     }
 
                     public Group Run()

@@ -4,7 +4,7 @@
 
     public sealed class Day02A : Day02
     {
-        protected override int RunCore(string input) => Rows(input).Select(MaxDiff).Sum();
+        protected override int RunCore(Input input) => Rows(input).Select(MaxDiff).Sum();
 
         private static int MaxDiff(int[] values)
         {

@@ -24,9 +24,9 @@
 
         public string Run(string input)
         {
-            return this.RunCore(input).ToString();
+            return this.RunCore(new Input(input)).ToString();
         }
 
-        protected abstract TResult RunCore(string input);
+        protected abstract TResult RunCore(Input input);
     }
 }

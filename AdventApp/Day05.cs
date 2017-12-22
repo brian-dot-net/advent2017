@@ -12,9 +12,9 @@
             private readonly IReadOnlyList<int> jumps;
             private readonly Func<int, int> incJump;
 
-            public JumpTable(string input, Func<int, int> incJump)
+            public JumpTable(Input input, Func<int, int> incJump)
             {
-                this.jumps = Lines.From(input).Select(n => int.Parse(n)).ToList().AsReadOnly();
+                this.jumps = input.Lines().Select(n => int.Parse(n)).ToList().AsReadOnly();
                 this.incJump = incJump;
             }
 

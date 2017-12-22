@@ -5,7 +5,7 @@
 
     public abstract class Day02 : DayBase<int>
     {
-        protected static IEnumerable<int[]> Rows(string input) => Lines.From(input).Select(l => l.Split()).Select(r => AsInts(r));
+        protected static IEnumerable<int[]> Rows(Input input) => input.Lines().Select(l => l.Split()).Select(r => AsInts(r));
 
         protected static int[] AsInts(string[] values)
         {

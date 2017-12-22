@@ -5,7 +5,7 @@
 
     public sealed class Day02B : Day02
     {
-        protected override int RunCore(string input) => Rows(input).Select(r => DivideTwo(r)).Sum();
+        protected override int RunCore(Input input) => Rows(input).Select(r => DivideTwo(r)).Sum();
 
         private static int DivideTwo(int[] row)
         {

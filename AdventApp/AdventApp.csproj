@@ -54,6 +54,7 @@
     <EmbeddedResource Include="Day08.txt" />
     <EmbeddedResource Include="Day09.txt" />
     <EmbeddedResource Include="Day10.txt" />
+    <Compile Include="Input.cs" />
     <Compile Include="Day.cs" />
     <Compile Include="Day01.cs" />
     <Compile Include="Day01A.cs" />
@@ -87,7 +88,6 @@
     <Compile Include="Day10B.cs" />
     <Compile Include="DayBase.cs" />
     <Compile Include="ICanRun.cs" />
-    <Compile Include="Lines.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -3,11 +3,25 @@
     using System.Collections.Generic;
     using System.IO;
 
-    internal static class Lines
+    public struct Input
     {
-        public static IEnumerable<string> From(string input)
+        private readonly string raw;
+
+        public Input(string raw)
         {
-            using (StringReader sr = new StringReader(input))
+            this.raw = raw;
+        }
+
+        public string Raw => this.raw;
+
+        public int Integer()
+        {
+            return int.Parse(this.Raw);
+        }
+
+        public IEnumerable<string> Lines()
+        {
+            using (StringReader sr = new StringReader(this.Raw))
             {
                 string next;
                 do
@@ -21,6 +35,5 @@
                 while (next != null);
             }
         }
-
     }
 }

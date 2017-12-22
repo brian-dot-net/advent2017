@@ -21,7 +21,7 @@
             }
 
             output.ToString().Should().Match(
-                "ADayZ => x-1 (* ms elapsed)\r\n" +
+                "ADayZ => xhello-1 (* ms elapsed)\r\n" +
                 "BDayX => 500 (* ms elapsed)\r\n");
         }
 
@@ -407,12 +407,12 @@ c inc -20 if c == 10";
 
         private sealed class ADayZ : DayBase<string>
         {
-            protected override string RunCore(string input) => "x" + int.Parse(input);
+            protected override string RunCore(Input input) => "x" + input.Raw;
         }
 
         private sealed class BDayX : DayBase<int>
         {
-            protected override int RunCore(string input) => int.Parse(input);
+            protected override int RunCore(Input input) => input.Integer();
         }
     }
 }
