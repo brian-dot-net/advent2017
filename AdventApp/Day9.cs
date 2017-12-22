@@ -22,10 +22,14 @@ namespace Advent
 
             public int Score() => this.root.Score();
 
+            public int CountGarbage() => this.root.CountGarbage();
+
             private sealed class Group
             {
                 private readonly List<Group> children;
                 private readonly bool garbage;
+
+                private int garbageCount;
 
                 private Group(Group parent, bool garbage)
                 {
@@ -45,6 +49,27 @@ namespace Advent
                 public int Score()
                 {
                     return this.ScoreInner(0);
+                }
+
+                public void OnGarbageChar()
+                {
+                    ++this.garbageCount;
+                }
+
+                public int CountGarbage()
+                {
+                    int total = this.garbageCount;
+                    if (total > 0)
+                    {
+                        return total;
+                    }
+
+                    foreach (Group child in this.children)
+                    {
+                        total += child.CountGarbage();
+                    }
+
+                    return total;
                 }
 
                 private void Add(Group child) => this.children.Add(child);
@@ -80,26 +105,29 @@ namespace Advent
                     {
                         int n = this.input.Length;
                         Group root = null;
-                        bool garbage = false;
+                        Group garbage = null;
                         for (int i = 0; i < n; ++i)
                         {
                             char c = this.input[i];
-                            if (garbage)
+                            if (garbage != null)
                             {
                                 if (c == '>')
                                 {
-                                    garbage = false;
+                                    garbage = null;
                                     this.Pop();
                                 }
                                 else if (c == '!')
                                 {
                                     ++i;
                                 }
+                                else
+                                {
+                                    garbage.OnGarbageChar();
+                                }
                             }
                             else if (c == '<')
                             {
-                                garbage = true;
-                                this.Push(true);
+                                garbage = this.Push(true);
                             }
                             else if (c == '{')
                             {
@@ -114,7 +142,7 @@ namespace Advent
                         return root;
                     }
 
-                    private void Push(bool garbage)
+                    private Group Push(bool garbage)
                     {
                         Group parent = null;
                         if (this.stack.Count > 0)
@@ -122,7 +150,9 @@ namespace Advent
                             parent = this.stack.Peek();
                         }
 
-                        this.stack.Push(new Group(parent, garbage));
+                        Group group = new Group(parent, garbage);
+                        this.stack.Push(group);
+                        return group;
                     }
 
                     private Group Pop() => this.stack.Pop();

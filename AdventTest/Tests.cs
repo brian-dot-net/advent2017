@@ -225,6 +225,19 @@ c inc -20 if c == 10";
                 P("{{<a!>},{<a!>},{<a!>},{<ab>}}", 3));
         }
 
+        [TestMethod]
+        public void TestDay9B()
+        {
+            Try<Day9B>(
+                P("{<>}", 0),
+                P("{<random characters>}", 17),
+                P("{<<<<>}", 3),
+                P("{<{!>}>}", 2),
+                P("{<!!>}", 0),
+                P("{<!!!>>}", 0),
+                P("{<{o\"i!a,<{i<a>}", 10));
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());
