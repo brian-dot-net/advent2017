@@ -1,4 +1,4 @@
-﻿hwv inc 149 if clj >= -5
+hwv inc 149 if clj >= -5
 or inc 530 if hwv > 144
 d inc 131 if f < 1
 gnz dec -236 if jp != 0
