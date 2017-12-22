@@ -4,9 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public abstract class Day07 : ICanRun
+    public abstract class Day07 : DayBase<string>
     {
-        public string DefaultInput => @"jovejmr (40)
+        public override string DefaultInput => @"jovejmr (40)
 fesmk (24)
 gwhfv (74)
 vxfoyx (101) -> aqytxb, ltnnn
@@ -1298,10 +1298,6 @@ srpftd (74)
 gwxeoes (27)
 gynzo (86)
 wnwzo (37)";
-
-        public string Run(string input) => this.RunCore(input).ToString();
-
-        protected abstract string RunCore(string input);
 
         protected sealed class ProgramNode
         {

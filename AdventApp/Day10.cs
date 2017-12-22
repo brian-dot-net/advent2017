@@ -2,13 +2,9 @@
 {
     using System.Linq;
 
-    public abstract class Day10 : ICanRun
+    public abstract class Day10 : DayBase<string>
     {
-        public string DefaultInput => "106,16,254,226,55,2,1,166,177,247,93,0,255,228,60,36";
-
-        public string Run(string input) => this.RunCore(input).ToString();
-
-        protected abstract string RunCore(string input);
+        public override string DefaultInput => "106,16,254,226,55,2,1,166,177,247,93,0,255,228,60,36";
 
         protected sealed class Knot
         {

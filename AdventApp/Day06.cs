@@ -4,13 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public abstract class Day06 : ICanRun
+    public abstract class Day06 : DayBase<int>
     {
-        public string DefaultInput => @"11 11 13 7 0 15 5 5 4 4 1 1 7 1 15 11";
-
-        public string Run(string input) => this.RunCore(input).ToString();
-
-        protected abstract int RunCore(string input);
+        public override string DefaultInput => @"11 11 13 7 0 15 5 5 4 4 1 1 7 1 15 11";
 
         protected sealed class MemoryBanks
         {

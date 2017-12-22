@@ -4,13 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public abstract class Day03 : ICanRun
+    public abstract class Day03 : DayBase<int>
     {
-        public string DefaultInput => @"265149";
-
-        public string Run(string input) => this.RunCore(input).ToString();
-
-        protected abstract int RunCore(string input);
+        public override string DefaultInput => @"265149";
 
         private static Pair P(int x, int y) => new Pair(x, y);
 

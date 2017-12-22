@@ -3,9 +3,9 @@
     using System;
     using System.Collections.Generic;
 
-    public abstract class Day04 : ICanRun
+    public abstract class Day04 : DayBase<int>
     {
-        public string DefaultInput => @"nyot babgr babgr kqtu kqtu kzshonp ylyk psqk
+        public override string DefaultInput => @"nyot babgr babgr kqtu kqtu kzshonp ylyk psqk
 iix ewj rojvbkk phrij iix zuajnk tadv givslju ewj bda
 isjur jppvano vctnpjp ngwzdq pxqfrk mnxxes zqwgnd giqh
 ojufqke gpd olzirc jfao cjfh rcivvw pqqpudp
@@ -517,10 +517,6 @@ piyl haajm stwzpp xvjg amjah
 gye efwwwiv kyv zmtcgmi ifwvwew
 dflx gdtb jyoj jyoj dflx aqhycgi xffnn
 inc mpys mzqmcwx vryz ibqrzc pmsy fat rojpxwy rcbqzi gjef";
-
-        public string Run(string input) => this.RunCore(input).ToString();
-
-        protected abstract int RunCore(string input);
 
         protected static bool ValidPassphrase(string line, bool allowAnagrams)
         {

@@ -5,9 +5,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public abstract class Day05 : ICanRun
+    public abstract class Day05 : DayBase<int>
     {
-        public string DefaultInput => @"0
+        public override string DefaultInput => @"0
 1
 0
 1
@@ -1051,10 +1051,6 @@
 -924
 -924
 -365";
-
-        public string Run(string input) => this.RunCore(input).ToString();
-
-        protected abstract int RunCore(string input);
 
         protected sealed class JumpTable : IEnumerable<int>
         {

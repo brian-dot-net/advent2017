@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public abstract class Day08 : ICanRun
+    public abstract class Day08 : DayBase<int>
     {
-        public string DefaultInput => @"hwv inc 149 if clj >= -5
+        public override string DefaultInput => @"hwv inc 149 if clj >= -5
 or inc 530 if hwv > 144
 d inc 131 if f < 1
 gnz dec -236 if jp != 0
@@ -1005,10 +1005,6 @@ or inc 157 if clj >= -2589
 vv inc -878 if cto <= -1896
 or inc 190 if gnz > 3765
 l dec 367 if uix >= -3376";
-
-        public string Run(string input) => this.RunCore(input).ToString();
-
-        protected abstract int RunCore(string input);
 
         protected sealed class Instructions
         {
