@@ -17,9 +17,12 @@
             using (TextWriter w = new StringWriter(output))
             {
                 Day.Show<ADay>(w);
+                Day.Show<BDay>(w);
             }
 
-            output.ToString().Should().Match("ADay => x-1 (* ms elapsed)\r\n");
+            output.ToString().Should().Match(
+                "ADay => x-1 (* ms elapsed)\r\n" +
+                "BDay => 500 (* ms elapsed)\r\n");
         }
 
         [TestMethod]
@@ -273,14 +276,18 @@ c inc -20 if c == 10";
             }
         }
 
-        private sealed class ADay : ICanRun
+        private sealed class ADay : DayBase<string>
         {
-            public string DefaultInput => "-1";
+            public override string DefaultInput => "-1";
 
-            public string Run(string input)
-            {
-                return "x" + int.Parse(input);
-            }
+            protected override string RunCore(string input) => "x" + int.Parse(input);
+        }
+
+        private sealed class BDay : DayBase<int>
+        {
+            public override string DefaultInput => "500";
+
+            protected override int RunCore(string input) => int.Parse(input);
         }
     }
 }

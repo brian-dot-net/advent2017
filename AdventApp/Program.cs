@@ -1,33 +1,33 @@
 ﻿namespace Advent
 {
     using System;
-    using System.IO;
 
     internal sealed class Program
     {
         private static void Main()
         {
-            TextWriter o = Console.Out;
-            Day.Show<Day01A>(o);
-            Day.Show<Day01B>(o);
-            Day.Show<Day02A>(o);
-            Day.Show<Day02B>(o);
-            Day.Show<Day03A>(o);
-            Day.Show<Day03B>(o);
-            Day.Show<Day04A>(o);
-            Day.Show<Day04B>(o);
-            Day.Show<Day05A>(o);
-            Day.Show<Day05B>(o);
-            Day.Show<Day06A>(o);
-            Day.Show<Day06B>(o);
-            Day.Show<Day07A>(o);
-            Day.Show<Day07B>(o);
-            Day.Show<Day08A>(o);
-            Day.Show<Day08B>(o);
-            Day.Show<Day09A>(o);
-            Day.Show<Day09B>(o);
-            Day.Show<Day10A>(o);
-            Day.Show<Day10B>(o);
+            Show<Day01A>();
+            Show<Day01B>();
+            Show<Day02A>();
+            Show<Day02B>();
+            Show<Day03A>();
+            Show<Day03B>();
+            Show<Day04A>();
+            Show<Day04B>();
+            Show<Day05A>();
+            Show<Day05B>();
+            Show<Day06A>();
+            Show<Day06B>();
+            Show<Day07A>();
+            Show<Day07B>();
+            Show<Day08A>();
+            Show<Day08B>();
+            Show<Day09A>();
+            Show<Day09B>();
+            Show<Day10A>();
+            Show<Day10B>();
         }
+
+        private static void Show<TDay>() where TDay : ICanRun, new() => Day.Show<TDay>(Console.Out);
     }
 }
