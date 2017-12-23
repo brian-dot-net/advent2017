@@ -524,6 +524,19 @@ c inc -20 if c == 10";
             Do<Day14A>.Solution("8204");
         }
 
+        [TestMethod]
+        public void Day14BTests()
+        {
+            Do<Day14B>.Tests(
+                P("flqrgnkx", 1242));
+        }
+
+        [TestMethod]
+        public void Day14BSolution()
+        {
+            Do<Day14B>.Solution("1089");
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());
