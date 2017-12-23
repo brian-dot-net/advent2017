@@ -12,10 +12,16 @@
             {
                 Type type = this.GetType();
                 Assembly asm = type.Assembly;
-                string baseName = type.Name;
-                baseName = baseName.Substring(0, baseName.Length - 1);
-                string inputResource = type.Namespace + "." + baseName + ".txt";
-                using (StreamReader reader = new StreamReader(asm.GetManifestResourceStream(inputResource)))
+                string fileName = type.Name;
+                fileName = fileName.Substring(0, fileName.Length - 1) + ".txt";
+                string inputResource = type.Namespace + "." + fileName;
+                Stream stream = asm.GetManifestResourceStream(inputResource);
+                if (stream == null)
+                {
+                    throw new FileNotFoundException("Could not find '" + fileName + "'.");
+                }
+
+                using (StreamReader reader = new StreamReader(stream))
                 {
                     return reader.ReadToEnd();
                 }

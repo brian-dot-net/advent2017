@@ -26,6 +26,14 @@
         }
 
         [TestMethod]
+        public void TestMissingInputResource()
+        {
+            Action act = () => Day<BadDayX>.Run();
+
+            act.ShouldThrow<FileNotFoundException>().WithMessage("*'BadDay.txt'*");
+        }
+
+        [TestMethod]
         public void Day01ATests()
         {
             Do<Day01A>.Tests(
@@ -379,6 +387,29 @@ c inc -20 if c == 10";
             Do<Day10B>.Solution("7adfd64c2a03a4968cf708d1b7fd418d");
         }
 
+        [TestMethod]
+        public void Day11ATests()
+        {
+            Do<Day11A>.Tests(
+                P("ne,ne,ne", 3),
+                P("ne,ne,sw,sw", 0),
+                P("ne,ne,s,s", 2),
+                P("se,sw,se,sw,sw", 3),
+                P("n,ne,ne,ne,ne", 5),
+                P("ne,se,ne,se,ne,se", 6),
+                P("nw,sw,nw,sw,nw,sw", 6),
+                P("n,n,n,n,se,se,se,se,se,se,se,se", 8),
+                P("n,n,n,se,se,se", 3),
+                P("s,s,s,s,s,ne,ne,ne", 5),
+                P("n,n,n,n,n,se,se,se", 5));
+        }
+
+        [TestMethod]
+        public void Day11ASolution()
+        {
+            Do<Day11A>.Solution("808");
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());
@@ -413,6 +444,14 @@ c inc -20 if c == 10";
         private sealed class BDayX : DayBase<int>
         {
             protected override int RunCore(Input input) => input.Integer();
+        }
+
+        private sealed class BadDayX : DayBase<int>
+        {
+            protected override int RunCore(Input input)
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }
