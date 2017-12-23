@@ -54,6 +54,8 @@
     <EmbeddedResource Include="Day08.txt" />
     <EmbeddedResource Include="Day09.txt" />
     <EmbeddedResource Include="Day10.txt" />
+    <Compile Include="Day12A.cs" />
+    <Compile Include="Day12.cs" />
     <Compile Include="Day11B.cs" />
     <Compile Include="Day11A.cs" />
     <Compile Include="Day11.cs" />
@@ -99,6 +101,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Day11.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Day12.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,7 +10,7 @@
 
             public HexGrid(Input input)
             {
-                foreach (Input move in input.Fields(','))
+                foreach (Input move in input.Fields(","))
                 {
                     this.Move(Read(move.ToString()));
                     this.MaxDistance = Math.Max(this.location.HexDistance, this.MaxDistance);

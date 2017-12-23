@@ -180,7 +180,7 @@
 
                     if (fields.Length == 4)
                     {
-                        foreach (Input child in fields[3].Fields(','))
+                        foreach (Input child in fields[3].Fields(", "))
                         {
                             info.Children.Add(child.ToString().Trim());
                         }
