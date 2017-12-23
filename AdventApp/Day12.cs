@@ -7,11 +7,11 @@
     {
         protected sealed class Pipes
         {
-            private readonly Dictionary<int, Pipe> groups;
+            private readonly List<Pipe> programs;
 
             public Pipes(Input input)
             {
-                this.groups = new Dictionary<int, Pipe>();
+                this.programs = new List<Pipe>();
                 foreach (Input[] fields in input.Lines().Select(l => l.Fields(" <-> ")))
                 {
                     int program = fields[0].Integer();
@@ -20,9 +20,21 @@
                 }
             }
 
-            public int Count(int program)
+            private int ProgramCount => this.programs.Count;
+
+            public int CountPipes(int program)
             {
-                return this.groups[program].Count();
+                return this.Connected(program).Count;
+            }
+
+            public int CountGroups()
+            {
+                return new Groups(this).Count;
+            }
+
+            private HashSet<int> Connected(int program)
+            {
+                return this.Get(program).Connected();
             }
 
             private void Connect(int program, IEnumerable<int> connections)
@@ -36,14 +48,56 @@
 
             private Pipe Get(int program)
             {
-                Pipe pipe;
-                if (!this.groups.TryGetValue(program, out pipe))
+                for (int i = this.programs.Count; i <= program; ++i)
                 {
-                    pipe = new Pipe(program);
-                    this.groups.Add(program, pipe);
+                    this.programs.Add(new Pipe(i));
                 }
 
-                return pipe;
+                return this.programs[program];
+            }
+
+            private sealed class Groups
+            {
+                private readonly Pipes pipes;
+                private readonly HashSet<int> all;
+
+                public Groups(Pipes pipes)
+                {
+                    this.pipes = pipes;
+                    this.all = new HashSet<int>();
+                    this.Init();
+                }
+
+                public int Count { get; private set; }
+
+                private void Init()
+                {
+                    int i = 0;
+                    int n = this.pipes.ProgramCount;
+                    while (this.all.Count < n)
+                    {
+                        if (this.AddGroup(i))
+                        {
+                            ++this.Count;
+                        }
+
+                        ++i;
+                    }
+                }
+
+                private bool AddGroup(int i)
+                {
+                    HashSet<int> group = this.pipes.Connected(i);
+                    foreach (int p in group)
+                    {
+                        if (!this.all.Add(p))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
             }
 
             private sealed class Pipe
@@ -62,7 +116,7 @@
                     this.connections.Add(other);
                 }
 
-                public int Count()
+                public HashSet<int> Connected()
                 {
                     HashSet<int> visited = new HashSet<int>();
                     Queue<Pipe> next = new Queue<Pipe>();
@@ -81,7 +135,7 @@
                         }
                     }
 
-                    return visited.Count;
+                    return visited;
                 }
             }
         }
