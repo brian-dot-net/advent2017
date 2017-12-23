@@ -54,6 +54,7 @@
     <EmbeddedResource Include="Day08.txt" />
     <EmbeddedResource Include="Day09.txt" />
     <EmbeddedResource Include="Day10.txt" />
+    <Compile Include="Day11B.cs" />
     <Compile Include="Day11A.cs" />
     <Compile Include="Day11.cs" />
     <Compile Include="Input.cs" />

@@ -13,10 +13,13 @@
                 foreach (Input move in input.Fields(','))
                 {
                     this.Move(Read(move.ToString()));
+                    this.MaxDistance = Math.Max(this.location.HexDistance, this.MaxDistance);
                 }
             }
 
             public int Distance => this.location.HexDistance;
+
+            public int MaxDistance { get; private set; }
 
             private static Pair P(int x, int y) => new Pair(x, y);
             

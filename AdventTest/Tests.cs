@@ -410,6 +410,33 @@ c inc -20 if c == 10";
             Do<Day11A>.Solution("808");
         }
 
+        [TestMethod]
+        public void Day11BTests()
+        {
+            Do<Day11B>.Tests(
+                P("ne,ne,ne", 3),
+                P("ne,ne,sw,sw", 2),
+                P("ne,ne,s,s", 2),
+                P("se,sw,se,sw,sw", 3),
+                P("n,ne,ne,ne,ne", 5),
+                P("ne,se,ne,se,ne,se", 6),
+                P("nw,sw,nw,sw,nw,sw", 6),
+                P("n,n,n,n,se,se,se,se,se,se,se,se", 8),
+                P("n,n,n,se,se,se", 3),
+                P("s,s,s,s,s,ne,ne,ne", 5),
+                P("n,n,n,n,n,se,se,se", 5),
+                P("n,n,n,n,n,s,s,s,s,s", 5),
+                P("s,s,s,s,s,n,n,n,n,n", 5),
+                P("s,s,s,n,n,n,n,n,n,n,n,n", 6),
+                P("n,n,n,s,s,s,s,s,s,s,s,s", 6));
+        }
+
+        [TestMethod]
+        public void Day11BSolution()
+        {
+            Do<Day11B>.Solution("1556");
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());
