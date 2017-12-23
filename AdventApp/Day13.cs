@@ -13,17 +13,16 @@
                 this.layers = new List<Layer>();
                 foreach (Input line in input.Lines())
                 {
-                    this.Add(Layer.Parse(line));
+                    this.layers.Add(Layer.Parse(line));
                 }
             }
 
             public int SendPacket()
             {
-                int n = this.layers.Count;
                 int sev = 0;
-                for (int i = 0; i < n; ++i)
+                foreach (Layer layer in this.layers)
                 {
-                    sev += this.layers[i].Send(i);
+                    sev += layer.Send();
                 }
 
                 return sev;
@@ -31,26 +30,15 @@
 
             public bool TryPacket(int delay)
             {
-                int n = this.layers.Count;
-                for (int i = 0; i < n; ++i)
+                foreach (Layer layer in this.layers)
                 {
-                    if (!this.layers[i].Try(i + delay))
+                    if (!layer.Try(delay))
                     {
                         return false;
                     }
                 }
 
                 return true;
-            }
-
-            private void Add(Layer layer)
-            {
-                for (int i = this.layers.Count; i < layer.Depth; ++i)
-                {
-                    this.layers.Add(new Layer(i, 0));
-                }
-
-                this.layers.Add(layer);
             }
 
             private struct Layer
@@ -66,9 +54,9 @@
 
                 public int Depth => this.depth;
 
-                public int Send(int time)
+                public int Send()
                 {
-                    if (this.Try(time))
+                    if (this.Try(0))
                     {
                         return 0;
                     }
@@ -76,13 +64,14 @@
                     return this.depth * this.range;
                 }
 
-                public bool Try(int time)
+                public bool Try(int delay)
                 {
                     if (this.range == 0)
                     {
                         return true;
                     }
 
+                    int time = this.depth + delay;
                     int cycle = 2 * (this.range - 1);
                     if ((cycle > 0) && (time % cycle != 0))
                     {
