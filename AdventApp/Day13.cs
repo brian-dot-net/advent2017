@@ -17,16 +17,30 @@
                 }
             }
 
-            public int Severity()
+            public int SendPacket()
             {
                 int n = this.layers.Count;
                 int sev = 0;
                 for (int i = 0; i < n; ++i)
                 {
-                    sev += this.layers[i].Severity(i);
+                    sev += this.layers[i].Send(i);
                 }
 
                 return sev;
+            }
+
+            public bool TryPacket(int delay)
+            {
+                int n = this.layers.Count;
+                for (int i = 0; i < n; ++i)
+                {
+                    if (!this.layers[i].Try(i + delay))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
             }
 
             private void Add(Layer layer)
@@ -52,20 +66,30 @@
 
                 public int Depth => this.depth;
 
-                public int Severity(int time)
+                public int Send(int time)
                 {
-                    if (this.range == 0)
-                    {
-                        return 0;
-                    }
-
-                    int cycle = 2 * (this.range - 1);
-                    if ((cycle > 0) && (time % cycle != 0))
+                    if (this.Try(time))
                     {
                         return 0;
                     }
 
                     return this.depth * this.range;
+                }
+
+                public bool Try(int time)
+                {
+                    if (this.range == 0)
+                    {
+                        return true;
+                    }
+
+                    int cycle = 2 * (this.range - 1);
+                    if ((cycle > 0) && (time % cycle != 0))
+                    {
+                        return true;
+                    }
+
+                    return false;
                 }
 
                 public static Layer Parse(Input line)

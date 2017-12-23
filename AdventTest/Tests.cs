@@ -494,6 +494,23 @@ c inc -20 if c == 10";
             Do<Day13A>.Solution("1632");
         }
 
+        [TestMethod]
+        public void Day13BTests()
+        {
+            string i1 = @"0: 3
+1: 2
+4: 4
+6: 4";
+            Do<Day13B>.Tests(
+                P(i1, 10));
+        }
+
+        [TestMethod]
+        public void Day13BSolution()
+        {
+            Do<Day13B>.Solution("3834136");
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());
