@@ -1,13 +1,15 @@
 ﻿namespace Advent
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     public abstract class Day16 : DayBase<string>
     {
         protected sealed class Dance
         {
-            private readonly Programs programs;
+            private readonly int size;
+            private readonly Moves moves;
 
             public Dance(Input input)
             {
@@ -17,24 +19,44 @@
                     first = "C16";
                 }
 
-                int n = new Input(first.Substring(1)).Integer();
-                this.programs = new Programs(n);
+                this.size = new Input(first.Substring(1)).Integer();
+                this.moves = new Moves(input);
             }
 
-            public string Run(Input input)
+            public string Run(int steps)
             {
-                Moves moves = new Moves(input);
-                moves.Run(this.programs);
-                return this.programs.ToString();
+                Programs result = this.Init();
+                int cycle = 0;
+                int remaining = steps;
+                while (remaining > 0)
+                {
+                    this.moves.Run(result);
+                    --remaining;
+                    ++cycle;
+                    if (result.IsSorted())
+                    {
+                        remaining %= cycle;
+                        cycle = 0;
+                    }
+                }
+
+                return result.ToString();
             }
+
+            private Programs Init() => new Programs(this.size);
 
             private sealed class Moves
             {
                 private readonly Move[] moves;
 
                 public Moves(Input input)
+                    : this(input.Fields(",").Select(Move.Parse))
                 {
-                    this.moves = input.Fields(",").Select(Move.Parse).ToArray();
+                }
+
+                private Moves(IEnumerable<Move> moves)
+                {
+                    this.moves = moves.ToArray();
                 }
 
                 public void Run(Programs programs)
@@ -114,6 +136,25 @@
                 public Programs(int n)
                 {
                     this.programs = Enumerable.Range(0, n).Select(i => (char)('a' + i)).ToArray();
+                }
+
+                private Programs(Programs other)
+                {
+                    this.programs = other.programs.ToArray();
+                }
+
+                public bool IsSorted()
+                {
+                    int n = this.programs.Length;
+                    for (int i = 0; i < n; ++i)
+                    {
+                        if (this.programs[i] != ('a' + i))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
                 }
 
                 public override string ToString()
