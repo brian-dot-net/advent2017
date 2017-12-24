@@ -537,6 +537,21 @@ c inc -20 if c == 10";
             Do<Day14B>.Solution("1089");
         }
 
+        [TestMethod]
+        public void Day15ATests()
+        {
+            string i1 = @"Generator A starts with 65
+Generator B starts with 8921";
+            Do<Day15A>.Tests(
+                P(i1, 588));
+        }
+
+        [TestMethod]
+        public void Day15ASolution()
+        {
+            Do<Day15A>.Solution("612");
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());
