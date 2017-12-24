@@ -73,28 +73,46 @@
 
                 public void Spin(Input input)
                 {
-                    char[] spun = this.programs.ToArray();
-                    int s = input.Integer();
-                    int n = this.programs.Length;
-                    Array.Copy(this.programs, n - s, spun, 0, s);
-                    Array.Copy(this.programs, 0, spun, s, n - s);
-                    Array.Copy(spun, this.programs, n);
+                    Input[] fields = input.Fields("/");
+                    int x = fields[0].Integer();
+                    this.Spin(x);
                 }
 
                 public void Exchange(Input input)
                 {
                     Input[] fields = input.Fields("/");
-                    int i = fields[0].Integer();
-                    int j = fields[1].Integer();
-                    this.Swap(i, j);
+                    int x = fields[0].Integer();
+                    int y = fields[1].Integer();
+                    this.Exchange(x, y);
                 }
 
                 public void Partner(Input input)
                 {
                     Input[] fields = input.Fields("/");
-                    char a = fields[0].Character();
-                    char b = fields[1].Character();
-                    this.Swap(this.Find(a), this.Find(b));
+                    char x = fields[0].Character();
+                    char y = fields[1].Character();
+                    this.Partner(x, y);
+                }
+
+                private void Spin(int x)
+                {
+                    int n = this.programs.Length;
+                    char[] spun = new char[n];
+                    Array.Copy(this.programs, n - x, spun, 0, x);
+                    Array.Copy(this.programs, 0, spun, x, n - x);
+                    Array.Copy(spun, this.programs, n);
+                }
+
+                private void Partner(char x, char y)
+                {
+                    this.Exchange(this.Find(x), this.Find(y));
+                }
+
+                private void Exchange(int i, int j)
+                {
+                    char t = this.programs[i];
+                    this.programs[i] = this.programs[j];
+                    this.programs[j] = t;
                 }
 
                 private int Find(char a)
@@ -109,13 +127,6 @@
                     }
 
                     return -1;
-                }
-
-                private void Swap(int i, int j)
-                {
-                    char t = this.programs[i];
-                    this.programs[i] = this.programs[j];
-                    this.programs[j] = t;
                 }
             }
         }
