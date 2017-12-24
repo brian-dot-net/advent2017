@@ -23,29 +23,37 @@
 
             public string Run(Input input)
             {
-                foreach (Input move in input.Fields(","))
-                {
-                    this.Move(move.ToString());
-                }
-
+                Moves moves = new Moves();
+                moves.Run(input, this.programs);
                 return this.programs.ToString();
             }
 
-            private void Move(string move)
+            private sealed class Moves
             {
-                char m = move[0];
-                Input rest = new Input(move.Substring(1));
-                switch (m)
+                public void Run(Input input, Programs programs)
                 {
-                    case 's':
-                        this.programs.Spin(rest);
-                        break;
-                    case 'x':
-                        this.programs.Exchange(rest);
-                        break;
-                    case 'p':
-                        this.programs.Partner(rest);
-                        break;
+                    foreach (Input move in input.Fields(","))
+                    {
+                        Move(move.ToString(), programs);
+                    }
+                }
+
+                private static void Move(string move, Programs programs)
+                {
+                    char m = move[0];
+                    Input rest = new Input(move.Substring(1));
+                    switch (m)
+                    {
+                        case 's':
+                            programs.Spin(rest);
+                            break;
+                        case 'x':
+                            programs.Exchange(rest);
+                            break;
+                        case 'p':
+                            programs.Partner(rest);
+                            break;
+                    }
                 }
             }
 
