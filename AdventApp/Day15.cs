@@ -14,16 +14,16 @@
 
             public Generators(Input input)
             {
-                this.generators = 
+                this.generators =
                     input.Lines()
                     .Select(l => l.Fields(" starts with ")[1].Integer())
                     .Zip(factors, (s, f) => new Generator(s, f))
                     .ToArray();
             }
 
-            public IEnumerable<int> this[int i] => this.generators[i].Sequence();
+            public IEnumerable<int> this[int i, int m] => this.generators[i].Sequence(m);
 
-            public int Run() => this[0].Zip(this[1], Match).Take(40000000).Sum();
+            public int Run(int n, int m1, int m2) => this[0, m1].Zip(this[1, m2], Match).Take(n).Sum();
 
             private static int Match(int a, int b) => (a & 0xFFFF) == (b & 0xFFFF) ? 1 : 0;
 
@@ -38,12 +38,16 @@
                     this.factor = factor;
                 }
 
-                public IEnumerable<int> Sequence()
+                public IEnumerable<int> Sequence(int m)
                 {
                     int previous = this.start;
                     while (true)
                     {
-                        yield return previous = (int)(Math.BigMul(previous, this.factor) % int.MaxValue);                        
+                        previous = (int)(Math.BigMul(previous, this.factor) % int.MaxValue);
+                        if ((previous % m) == 0)
+                        {
+                            yield return previous;
+                        }
                     }
                 }
             }

@@ -552,6 +552,21 @@ Generator B starts with 8921";
             Do<Day15A>.Solution("612");
         }
 
+        [TestMethod]
+        public void Day15BTests()
+        {
+            string i1 = @"Generator A starts with 65
+Generator B starts with 8921";
+            Do<Day15B>.Tests(
+                P(i1, 309));
+        }
+
+        [TestMethod]
+        public void Day15BSolution()
+        {
+            Do<Day15B>.Solution("285");
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());
