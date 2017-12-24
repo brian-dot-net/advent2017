@@ -201,6 +201,7 @@ a b ca ac";
         }
 
         [TestMethod]
+        [TestCategory("Slow")]
         public void Day05BSolution()
         {
             Do<Day05B>.Solution("25136209");
@@ -506,6 +507,7 @@ c inc -20 if c == 10";
         }
 
         [TestMethod]
+        [TestCategory("Slow")]
         public void Day13BSolution()
         {
             Do<Day13B>.Solution("3834136");
@@ -525,6 +527,7 @@ c inc -20 if c == 10";
         }
 
         [TestMethod]
+        [TestCategory("Slow")]
         public void Day14BTests()
         {
             Do<Day14B>.Tests(
@@ -532,12 +535,14 @@ c inc -20 if c == 10";
         }
 
         [TestMethod]
+        [TestCategory("Slow")]
         public void Day14BSolution()
         {
             Do<Day14B>.Solution("1089");
         }
 
         [TestMethod]
+        [TestCategory("Slow")]
         public void Day15ATests()
         {
             string i1 = @"Generator A starts with 65
@@ -547,12 +552,14 @@ Generator B starts with 8921";
         }
 
         [TestMethod]
+        [TestCategory("Slow")]
         public void Day15ASolution()
         {
             Do<Day15A>.Solution("612");
         }
 
         [TestMethod]
+        [TestCategory("Slow")]
         public void Day15BTests()
         {
             string i1 = @"Generator A starts with 65
@@ -562,6 +569,7 @@ Generator B starts with 8921";
         }
 
         [TestMethod]
+        [TestCategory("Slow")]
         public void Day15BSolution()
         {
             Do<Day15B>.Solution("285");
