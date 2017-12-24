@@ -7,7 +7,7 @@
     {
         protected sealed class Dance
         {
-            private readonly char[] programs;
+            private readonly Programs programs;
 
             public Dance(Input input)
             {
@@ -18,7 +18,7 @@
                 }
 
                 int n = new Input(first.Substring(1)).Integer();
-                this.programs = Enumerable.Range(0, n).Select(i => (char)('a' + i)).ToArray();
+                this.programs = new Programs(n);
             }
 
             public string Run(Input input)
@@ -28,7 +28,7 @@
                     this.Move(move.ToString());
                 }
 
-                return new string(this.programs);
+                return this.programs.ToString();
             }
 
             private void Move(string move)
@@ -38,62 +38,77 @@
                 switch (m)
                 {
                     case 's':
-                        this.Spin(rest);
+                        this.programs.Spin(rest);
                         break;
                     case 'x':
-                        this.Exchange(rest);
+                        this.programs.Exchange(rest);
                         break;
                     case 'p':
-                        this.Partner(rest);
+                        this.programs.Partner(rest);
                         break;
                 }
             }
 
-            private void Spin(Input input)
+            private sealed class Programs
             {
-                char[] spun = this.programs.ToArray();
-                int s = input.Integer();
-                int n = this.programs.Length;
-                Array.Copy(this.programs, n - s, spun, 0, s);
-                Array.Copy(this.programs, 0, spun, s, n - s);
-                Array.Copy(spun, this.programs, n);
-            }
+                private readonly char[] programs;
 
-            private void Exchange(Input input)
-            {
-                Input[] fields = input.Fields("/");
-                int i = fields[0].Integer();
-                int j = fields[1].Integer();
-                this.Swap(i, j);
-            }
-
-            private void Partner(Input input)
-            {
-                Input[] fields = input.Fields("/");
-                char a = fields[0].Character();
-                char b = fields[1].Character();
-                this.Swap(this.Find(a), this.Find(b));
-            }
-
-            private int Find(char a)
-            {
-                int n = this.programs.Length;
-                for (int i = 0; i < n; ++i)
+                public Programs(int n)
                 {
-                    if (programs[i] == a)
-                    {
-                        return i;
-                    }
+                    this.programs = Enumerable.Range(0, n).Select(i => (char)('a' + i)).ToArray();
                 }
 
-                return -1;
-            }
+                public override string ToString()
+                {
+                    return new string(this.programs);
+                }
 
-            private void Swap(int i, int j)
-            {
-                char t = this.programs[i];
-                this.programs[i] = this.programs[j];
-                this.programs[j] = t;
+                public void Spin(Input input)
+                {
+                    char[] spun = this.programs.ToArray();
+                    int s = input.Integer();
+                    int n = this.programs.Length;
+                    Array.Copy(this.programs, n - s, spun, 0, s);
+                    Array.Copy(this.programs, 0, spun, s, n - s);
+                    Array.Copy(spun, this.programs, n);
+                }
+
+                public void Exchange(Input input)
+                {
+                    Input[] fields = input.Fields("/");
+                    int i = fields[0].Integer();
+                    int j = fields[1].Integer();
+                    this.Swap(i, j);
+                }
+
+                public void Partner(Input input)
+                {
+                    Input[] fields = input.Fields("/");
+                    char a = fields[0].Character();
+                    char b = fields[1].Character();
+                    this.Swap(this.Find(a), this.Find(b));
+                }
+
+                private int Find(char a)
+                {
+                    int n = this.programs.Length;
+                    for (int i = 0; i < n; ++i)
+                    {
+                        if (programs[i] == a)
+                        {
+                            return i;
+                        }
+                    }
+
+                    return -1;
+                }
+
+                private void Swap(int i, int j)
+                {
+                    char t = this.programs[i];
+                    this.programs[i] = this.programs[j];
+                    this.programs[j] = t;
+                }
             }
         }
     }
