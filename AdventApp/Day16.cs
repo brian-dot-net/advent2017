@@ -23,62 +23,86 @@
 
             public string Run(Input input)
             {
-                Moves moves = new Moves();
-                moves.Run(input, this.programs);
+                Moves moves = new Moves(input);
+                moves.Run(this.programs);
                 return this.programs.ToString();
             }
 
             private sealed class Moves
             {
-                public void Run(Input input, Programs programs)
+                private readonly Move[] moves;
+
+                public Moves(Input input)
                 {
-                    foreach (Input move in input.Fields(","))
+                    this.moves = input.Fields(",").Select(Move.Parse).ToArray();
+                }
+
+                public void Run(Programs programs)
+                {
+                    foreach (Move move in this.moves)
                     {
-                        Move.Run(move.ToString(), programs);
+                        move.Run(programs);
                     }
                 }
 
                 private struct Move
                 {
-                    public static void Run(string move, Programs programs)
+                    private readonly char opcode;
+                    private readonly char x;
+                    private readonly char y;
+
+                    private Move(char opcode, char x, char y)
                     {
+                        this.opcode = opcode;
+                        this.x = x;
+                        this.y = y;
+                    }
+
+                    public static Move Parse(Input input)
+                    {
+                        string move = input.ToString();
                         char m = move[0];
-                        Input rest = new Input(move.Substring(1));
+                        Input[] fields = new Input(move.Substring(1)).Fields("/");
                         switch (m)
                         {
-                            case 's':
-                                Spin(rest, programs);
+                            case Opcode.Spin:
+                                return Spin(fields);
+                            case Opcode.Exchange:
+                                return Exchange(fields);
+                            case Opcode.Partner:
+                                return Partner(fields);
+                            default:
+                                return new Move();
+                        }
+                    }
+
+                    public void Run(Programs programs)
+                    {
+                        switch (this.opcode)
+                        {
+                            case Opcode.Spin:
+                                programs.Spin(this.x);
                                 break;
-                            case 'x':
-                                Exchange(rest, programs);
+                            case Opcode.Exchange:
+                                programs.Exchange(this.x, this.y);
                                 break;
-                            case 'p':
-                                Partner(rest, programs);
+                            case Opcode.Partner:
+                                programs.Partner(this.x, this.y);
                                 break;
                         }
                     }
 
-                    private static void Spin(Input input, Programs programs)
-                    {
-                        Input[] fields = input.Fields("/");
-                        int x = fields[0].Integer();
-                        programs.Spin(x);
-                    }
+                    private static Move Spin(Input[] fields) => new Move(Opcode.Spin, (char)fields[0].Integer(), '\0');
 
-                    private static void Exchange(Input input, Programs programs)
-                    {
-                        Input[] fields = input.Fields("/");
-                        int x = fields[0].Integer();
-                        int y = fields[1].Integer();
-                        programs.Exchange(x, y);
-                    }
+                    private static Move Exchange(Input[] fields) => new Move(Opcode.Exchange, (char)fields[0].Integer(), (char)fields[1].Integer());
 
-                    private static void Partner(Input input, Programs programs)
+                    private static Move Partner(Input[] fields) => new Move(Opcode.Partner, fields[0].Character(), fields[1].Character());
+
+                    private static class Opcode
                     {
-                        Input[] fields = input.Fields("/");
-                        char x = fields[0].Character();
-                        char y = fields[1].Character();
-                        programs.Partner(x, y);
+                        public const char Spin = 's';
+                        public const char Exchange = 'x';
+                        public const char Partner = 'p';
                     }
                 }
             }
