@@ -34,25 +34,51 @@
                 {
                     foreach (Input move in input.Fields(","))
                     {
-                        Move(move.ToString(), programs);
+                        Move.Run(move.ToString(), programs);
                     }
                 }
 
-                private static void Move(string move, Programs programs)
+                private struct Move
                 {
-                    char m = move[0];
-                    Input rest = new Input(move.Substring(1));
-                    switch (m)
+                    public static void Run(string move, Programs programs)
                     {
-                        case 's':
-                            programs.Spin(rest);
-                            break;
-                        case 'x':
-                            programs.Exchange(rest);
-                            break;
-                        case 'p':
-                            programs.Partner(rest);
-                            break;
+                        char m = move[0];
+                        Input rest = new Input(move.Substring(1));
+                        switch (m)
+                        {
+                            case 's':
+                                Spin(rest, programs);
+                                break;
+                            case 'x':
+                                Exchange(rest, programs);
+                                break;
+                            case 'p':
+                                Partner(rest, programs);
+                                break;
+                        }
+                    }
+
+                    private static void Spin(Input input, Programs programs)
+                    {
+                        Input[] fields = input.Fields("/");
+                        int x = fields[0].Integer();
+                        programs.Spin(x);
+                    }
+
+                    private static void Exchange(Input input, Programs programs)
+                    {
+                        Input[] fields = input.Fields("/");
+                        int x = fields[0].Integer();
+                        int y = fields[1].Integer();
+                        programs.Exchange(x, y);
+                    }
+
+                    private static void Partner(Input input, Programs programs)
+                    {
+                        Input[] fields = input.Fields("/");
+                        char x = fields[0].Character();
+                        char y = fields[1].Character();
+                        programs.Partner(x, y);
                     }
                 }
             }
@@ -71,30 +97,7 @@
                     return new string(this.programs);
                 }
 
-                public void Spin(Input input)
-                {
-                    Input[] fields = input.Fields("/");
-                    int x = fields[0].Integer();
-                    this.Spin(x);
-                }
-
-                public void Exchange(Input input)
-                {
-                    Input[] fields = input.Fields("/");
-                    int x = fields[0].Integer();
-                    int y = fields[1].Integer();
-                    this.Exchange(x, y);
-                }
-
-                public void Partner(Input input)
-                {
-                    Input[] fields = input.Fields("/");
-                    char x = fields[0].Character();
-                    char y = fields[1].Character();
-                    this.Partner(x, y);
-                }
-
-                private void Spin(int x)
+                public void Spin(int x)
                 {
                     int n = this.programs.Length;
                     char[] spun = new char[n];
@@ -103,12 +106,12 @@
                     Array.Copy(spun, this.programs, n);
                 }
 
-                private void Partner(char x, char y)
+                public void Partner(char x, char y)
                 {
                     this.Exchange(this.Find(x), this.Find(y));
                 }
 
-                private void Exchange(int i, int j)
+                public void Exchange(int i, int j)
                 {
                     char t = this.programs[i];
                     this.programs[i] = this.programs[j];
