@@ -44,16 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Day01.txt" />
-    <EmbeddedResource Include="Day02.txt" />
-    <EmbeddedResource Include="Day03.txt" />
-    <EmbeddedResource Include="Day04.txt" />
-    <EmbeddedResource Include="Day05.txt" />
-    <EmbeddedResource Include="Day06.txt" />
-    <EmbeddedResource Include="Day07.txt" />
-    <EmbeddedResource Include="Day08.txt" />
-    <EmbeddedResource Include="Day09.txt" />
-    <EmbeddedResource Include="Day10.txt" />
     <Compile Include="Day16B.cs" />
     <Compile Include="Day16A.cs" />
     <Compile Include="Day16.cs" />
@@ -114,21 +104,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Day01.txt" />
+    <EmbeddedResource Include="Day02.txt" />
+    <EmbeddedResource Include="Day03.txt" />
+    <EmbeddedResource Include="Day04.txt" />
+    <EmbeddedResource Include="Day05.txt" />
+    <EmbeddedResource Include="Day06.txt" />
+    <EmbeddedResource Include="Day07.txt" />
+    <EmbeddedResource Include="Day08.txt" />
+    <EmbeddedResource Include="Day09.txt" />
+    <EmbeddedResource Include="Day10.txt" />
     <EmbeddedResource Include="Day11.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Day12.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Day13.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Day14.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Day15.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Day16.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
