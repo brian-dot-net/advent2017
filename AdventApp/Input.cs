@@ -35,6 +35,8 @@
 
         public byte[] AsciiBytes() => Encoding.ASCII.GetBytes(this.raw);
 
+        public bool IsInteger() => int.TryParse(this.raw, out int x);
+
         public override string ToString() => this.raw;
 
         public IEnumerable<Input> Lines()
