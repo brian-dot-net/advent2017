@@ -616,6 +616,19 @@ Generator B starts with 8921";
             Do<Day17.A>.Solution("1282");
         }
 
+        [TestMethod]
+        public void Day17BTests()
+        {
+            Do<Day17.B>.Tests(
+                P("0", 1));
+        }
+
+        [TestMethod]
+        public void Day17BSolution()
+        {
+            Do<Day17.B>.Solution("27650600");
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());
