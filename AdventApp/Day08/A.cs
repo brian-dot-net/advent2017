@@ -2,9 +2,6 @@
 {
     public class A : Base
     {
-        protected override int RunCore(Input input)
-        {
-            return new Instructions(input).Run().MaxValue();
-        }
+        protected override int RunCore(Input input) => new Instructions(input).Run().MaxValue();
     }
 }

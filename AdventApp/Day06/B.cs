@@ -2,9 +2,6 @@
 {
     public class B : Base
     {
-        protected override int RunCore(Input input)
-        {
-            return new MemoryBanks(input).Reallocate().LoopCount;
-        }
+        protected override int RunCore(Input input) => new MemoryBanks(input).Reallocate().LoopCount;
     }
 }

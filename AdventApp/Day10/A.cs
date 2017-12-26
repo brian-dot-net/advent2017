@@ -1,20 +1,10 @@
 ﻿namespace Advent.Day10
 {
-    using System.Linq;
-
     public class A : Base
     {
         protected override string RunCore(Input input)
         {
-            Input[] fields = input.Fields();
-            if (fields.Length == 1)
-            {
-                fields = new Input[] { new Input("256"), fields[0] };
-            }
-
-            int length = fields[0].Integer();
-            byte[] bytes = fields[1].Fields(",").Select(f => f.Byte()).ToArray();
-            byte[] result = new Knot(length).Hash(1, bytes);
+            byte[] result = HashBytes(input);
             return (result[0] * result[1]).ToString();
         }
     }

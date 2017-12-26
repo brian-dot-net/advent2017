@@ -2,9 +2,6 @@
 {
     public class B : Base
     {
-        protected override string RunCore(Input input)
-        {
-            return new ProgramTree(input).Root.GetImbalance();
-        }
+        protected override string RunCore(Input input) => new ProgramTree(input).Root.GetImbalance();
     }
 }

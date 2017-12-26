@@ -28,7 +28,21 @@
                 return sev;
             }
 
-            public bool TryPacket(int delay)
+            public int FindSendDelay()
+            {
+                int delay = 0;
+                while (true)
+                {
+                    if (this.TryPacket(delay))
+                    {
+                        return delay;
+                    }
+
+                    ++delay;
+                }
+            }
+
+            private bool TryPacket(int delay)
             {
                 foreach (Layer layer in this.layers)
                 {

@@ -2,9 +2,6 @@
 {
     public class A : Base
     {
-        protected override int RunCore(Input input)
-        {
-            return new MemoryBanks(input).Reallocate().Count;
-        }
+        protected override int RunCore(Input input) => new MemoryBanks(input).Reallocate().Count;
     }
 }

@@ -2,9 +2,6 @@
 {
     public class B : Base
     {
-        protected override int RunCore(Input input)
-        {
-            return new Groups(input).CountGarbage();
-        }
+        protected override int RunCore(Input input) => new Groups(input).CountGarbage();
     }
 }

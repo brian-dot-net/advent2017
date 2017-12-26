@@ -2,9 +2,6 @@
 {
     public class A : Base
     {
-        protected override string RunCore(Input input)
-        {
-            return new ProgramTree(input).Root.Name;
-        }
+        protected override string RunCore(Input input) => new ProgramTree(input).Root.Name;
     }
 }

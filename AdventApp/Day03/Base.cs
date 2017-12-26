@@ -17,7 +17,7 @@
                 this.useSums = useSums;
             }
 
-            public Cell FirstCell(Func<Cell, bool> pred) => this.Rings().SelectMany(r => r.Cells()).First(pred);
+            public Cell FirstExceeding(int n) => this.Rings().SelectMany(r => r.Cells()).First(c => c.Value > n);
 
             private IEnumerable<Ring> Rings()
             {

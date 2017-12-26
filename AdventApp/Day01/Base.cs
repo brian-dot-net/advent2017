@@ -5,8 +5,16 @@
 
     public abstract class Base : DayBase<int>
     {
-        protected static int Matching(char a, char b) => (a == b) ? (a - '0') : 0;
+        protected static class Captcha
+        {
+            public static int Value(Input input, int r)
+            {
+                return input.Chars().Zip(Rotate(input.Chars(), r), Matching).Sum();
+            }
 
-        protected static IEnumerable<T> Rotate<T>(IEnumerable<T> input, int n) => input.Skip(n).Concat(input.Take(n));
+            private static int Matching(char a, char b) => (a == b) ? (a - '0') : 0;
+
+            private static IEnumerable<T> Rotate<T>(IEnumerable<T> input, int n) => input.Skip(n).Concat(input.Take(n));
+        }
     }
 }
