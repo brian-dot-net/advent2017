@@ -19,28 +19,28 @@
             {
                 Memory memory = new Memory();
                 this.instructions.Run(memory);
-                return memory.LastRecovered;
+                return memory.LastReceived;
             }
 
             private sealed class Memory
             {
                 private readonly Dictionary<char, long> registers;
 
-                private int lastSound;
+                private int lastSend;
 
                 public Memory()
                 {
                     this.registers = new Dictionary<char, long>();
                 }
 
-                public int LastRecovered { get; private set; }
+                public int LastReceived { get; private set; }
 
                 public int Instruction { get; private set; }
 
-                public void PlaySound(char r)
+                public void Send(char r)
                 {
-                    this.lastSound = (int)this.Get(r);
-                    if (this.lastSound < 0)
+                    this.lastSend = (int)this.Get(r);
+                    if (this.lastSend < 0)
                     {
                         throw new Exception("hmm");
                     }
@@ -68,17 +68,17 @@
                     this.Set(r, v, (x, y) => x % y);
                 }
 
-                public bool Recover(char r)
+                public bool Receive(char r)
                 {
-                    bool recovered = false;
+                    bool received = false;
                     if (this.Get(r) != 0)
                     {
-                        this.LastRecovered = this.lastSound;
-                        recovered = true;
+                        this.LastReceived = this.lastSend;
+                        received = true;
                     }
 
                     this.Next();
-                    return recovered;
+                    return received;
                 }
 
                 public void Jump(char r, Value v)
@@ -191,20 +191,20 @@
                     {
                         switch (opcode)
                         {
-                            case "snd": return this.PlaySound(memory);
+                            case "snd": return this.Send(memory);
                             case "set": return this.Set(memory);
                             case "add": return this.Add(memory);
                             case "mul": return this.Multiply(memory);
                             case "mod": return this.Mod(memory);
-                            case "rcv": return this.Recover(memory);
+                            case "rcv": return this.Receive(memory);
                             case "jgz": return this.Jump(memory);
                             default: throw new InvalidOperationException("Illegal instruction.");
                         }
                     }
 
-                    private bool PlaySound(Memory memory)
+                    private bool Send(Memory memory)
                     {
-                        memory.PlaySound(this.x);
+                        memory.Send(this.x);
                         return false;
                     }
 
@@ -232,9 +232,9 @@
                         return false;
                     }
 
-                    private bool Recover(Memory memory)
+                    private bool Receive(Memory memory)
                     {
-                        return memory.Recover(this.x);
+                        return memory.Receive(this.x);
                     }
 
                     private bool Jump(Memory memory)
