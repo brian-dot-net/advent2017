@@ -1,0 +1,10 @@
+﻿namespace Advent.Day09
+{
+    public class B : Base
+    {
+        protected override int RunCore(Input input)
+        {
+            return new Groups(input).CountGarbage();
+        }
+    }
+}
