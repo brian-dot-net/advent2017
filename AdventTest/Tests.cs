@@ -10,6 +10,8 @@
     [TestClass]
     public sealed class Tests
     {
+        private static readonly string NL = Environment.NewLine;
+
         [TestMethod]
         public void TestShow()
         {
@@ -677,12 +679,13 @@ rcv d";
         [TestMethod]
         public void Day19ATests()
         {
-            string i1 = @"     |          
-     |  +--+    
-     A  |  C    
- F---|----E|--+ 
-     |  |  |  D 
-     +B-+  +--+";
+            string i1 =
+                "     |          " + NL +
+                "     |  +--+    " + NL +
+                "     A  |  C    " + NL +
+                " F---|----E|--+ " + NL +
+                "     |  |  |  D " + NL +
+                "     +B-+  +--+ ";
             Do<Day19.A>.Tests(
                 P(i1, "ABCDEF"));
         }
@@ -696,12 +699,13 @@ rcv d";
         [TestMethod]
         public void Day19BTests()
         {
-            string i1 = @"     |          
-     |  +--+    
-     A  |  C    
- F---|----E|--+ 
-     |  |  |  D 
-     +B-+  +--+";
+            string i1 = 
+                "     |          " + NL +
+                "     |  +--+    " + NL +
+                "     A  |  C    " + NL +
+                " F---|----E|--+ " + NL +
+                "     |  |  |  D " + NL +
+                "     +B-+  +--+ ";
             Do<Day19.B>.Tests(
                 P(i1, "38"));
         }
