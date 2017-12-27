@@ -2,6 +2,6 @@
 {
     public class A : Base
     {
-        protected override int RunCore(Input input) => new Particles(input).Run();
+        protected override int RunCore(Input input) => new Particles(input).RunDistance();
     }
 }

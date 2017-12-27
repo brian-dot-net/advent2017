@@ -10,15 +10,26 @@
         {
             private readonly Particle[] particles;
 
-            private KeyValuePair<int, int> closest;
+            private KeyValuePair<int, int> previous;
 
             public Particles(Input input)
             {
                 this.particles = input.Lines().Select(Particle.Parse).ToArray();
-                this.closest = new KeyValuePair<int, int>(-1, -1);
+                this.previous = new KeyValuePair<int, int>(-1, -1);
             }
 
-            public int Run()
+            public int RunCollisions()
+            {
+                int last = -1;
+                for (int i = 0; i < this.particles.Length; ++i)
+                {
+                    last = this.RunOnceWithCollisions();
+                }
+
+                return last;
+            }
+
+            public int RunDistance()
             {
                 int last = -1;
                 for (int i = 0; i < this.particles.Length; ++i)
@@ -34,12 +45,26 @@
                 while (true)
                 {
                     KeyValuePair<int, int> nextClosest = this.RunNext();
-                    if (nextClosest.Key == this.closest.Key)
+                    if (nextClosest.Key == this.previous.Key)
                     {
-                        return this.closest.Key;
+                        return this.previous.Key;
                     }
 
-                    this.closest = nextClosest;
+                    this.previous = nextClosest;
+                }
+            }
+
+            private int RunOnceWithCollisions()
+            {
+                while (true)
+                {
+                    int count = this.RunNextWithCollisions();
+                    if (count == this.previous.Key)
+                    {
+                        return this.previous.Key;
+                    }
+
+                    this.previous = new KeyValuePair<int, int>(count, 0);
                 }
             }
 
@@ -50,7 +75,7 @@
                 for (int i = 0; i < n; ++i)
                 {
                     Particle p = this.particles[i];
-                    int d = p.Move();
+                    int d = p.Move().Distance;
                     if (d < nextClosest.Value)
                     {
                         nextClosest = new KeyValuePair<int, int>(i, d);
@@ -58,6 +83,41 @@
                 }
 
                 return nextClosest;
+            }
+
+            private int RunNextWithCollisions()
+            {
+                int n = this.particles.Length;
+                HashSet<int> dead = new HashSet<int>();
+                Dictionary<Coords, int> positions = new Dictionary<Coords, int>();
+                for (int i = 0; i < n; ++i)
+                {
+                    Particle p = this.particles[i];
+                    if (p != null)
+                    {
+                        Coords pos = p.Move();
+                        int j;
+                        if (positions.TryGetValue(pos, out j))
+                        {
+                            dead.Add(i);
+                            dead.Add(j);
+                        }
+
+                        positions[pos] = i;
+                    }
+                }
+
+                this.Remove(dead);
+
+                return this.particles.Count(p => p != null);
+            }
+
+            private void Remove(HashSet<int> dead)
+            {
+                foreach (int i in dead)
+                {
+                    this.particles[i] = null;
+                }
             }
 
             private sealed class Particle
@@ -80,37 +140,42 @@
                     return new Particle(parts[0], parts[1], parts[2]);
                 }
 
-                public int Move()
+                public Coords Move()
                 {
                     this.velocity += this.acceleration;
                     this.position += this.velocity;
-                    return this.position.Distance;
+                    return this.position;
+                }
+            }
+
+            private struct Coords : IEquatable<Coords>
+            {
+                private readonly int x;
+                private readonly int y;
+                private readonly int z;
+
+                private Coords(int x, int y, int z)
+                {
+                    this.x = x;
+                    this.y = y;
+                    this.z = z;
                 }
 
-                private struct Coords
+                public int Distance => Math.Abs(this.x) + Math.Abs(this.y) + Math.Abs(this.z);
+
+                public static Coords Parse(Input input)
                 {
-                    private readonly int x;
-                    private readonly int y;
-                    private readonly int z;
+                    string raw = input.Fields("=")[1].ToString();
+                    raw = raw.Substring(1, raw.Length - 2);
+                    int[] parts = new Input(raw).Fields(",").Select(f => f.Integer()).ToArray();
+                    return new Coords(parts[0], parts[1], parts[2]);
+                }
 
-                    private Coords(int x, int y, int z)
-                    {
-                        this.x = x;
-                        this.y = y;
-                        this.z = z;
-                    }
+                public static Coords operator +(Coords a, Coords b) => new Coords(a.x + b.x, a.y + b.y, a.z + b.z);
 
-                    public int Distance => Math.Abs(this.x) + Math.Abs(this.y) + Math.Abs(this.z);
-
-                    public static Coords Parse(Input input)
-                    {
-                        string raw = input.Fields("=")[1].ToString();
-                        raw = raw.Substring(1, raw.Length - 2);
-                        int[] parts = new Input(raw).Fields(",").Select(f => f.Integer()).ToArray();
-                        return new Coords(parts[0], parts[1], parts[2]);
-                    }
-
-                    public static Coords operator +(Coords a, Coords b) => new Coords(a.x + b.x, a.y + b.y, a.z + b.z);
+                public bool Equals(Coords other)
+                {
+                    return (this.x == other.x) && (this.y == other.y) && (this.z == other.z);
                 }
             }
         }
