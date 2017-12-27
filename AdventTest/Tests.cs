@@ -693,6 +693,25 @@ rcv d";
             Do<Day19.A>.Solution("MOABEUCWQS");
         }
 
+        [TestMethod]
+        public void Day19BTests()
+        {
+            string i1 = @"     |          
+     |  +--+    
+     A  |  C    
+ F---|----E|--+ 
+     |  |  |  D 
+     +B-+  +--+";
+            Do<Day19.B>.Tests(
+                P(i1, "38"));
+        }
+
+        [TestMethod]
+        public void Day19BSolution()
+        {
+            Do<Day19.B>.Solution("18058");
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());

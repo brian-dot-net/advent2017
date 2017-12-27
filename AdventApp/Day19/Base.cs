@@ -26,6 +26,8 @@
                 }
             }
 
+            public int Steps { get; private set; }
+
             private int Width { get; set; }
 
             private int Height => this.diagram.Count;
@@ -39,16 +41,20 @@
                 {
                     Step step = steps.Dequeue();
                     char c = this.diagram[step.Y][step.X];
-                    if (c == '+')
+                    if (c != ' ')
                     {
-                        this.Fork(step, steps);
-                    }
-                    else if (c != ' ')
-                    {
-                        steps.Enqueue(Next(step));
-                        if (c >= 'A' && c <= 'Z')
+                        ++this.Steps;
+                        if (c == '+')
                         {
-                            path.Append(c);
+                            this.Fork(step, steps);
+                        }
+                        else
+                        {
+                            steps.Enqueue(Next(step));
+                            if (c >= 'A' && c <= 'Z')
+                            {
+                                path.Append(c);
+                            }
                         }
                     }
                 }
