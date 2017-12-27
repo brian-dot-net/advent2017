@@ -92,6 +92,8 @@
     <Compile Include="Day19\B.cs" />
     <Compile Include="Day19\Base.cs" />
     <Compile Include="Day.cs" />
+    <Compile Include="Day20\A.cs" />
+    <Compile Include="Day20\Base.cs" />
     <Compile Include="DayBase.cs" />
     <Compile Include="ICanRun.cs" />
     <Compile Include="Input.cs" />
@@ -122,6 +124,9 @@
     <EmbeddedResource Include="Day17\Input.txt" />
     <EmbeddedResource Include="Day18\Input.txt" />
     <EmbeddedResource Include="Day19\Input.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Day20\Input.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

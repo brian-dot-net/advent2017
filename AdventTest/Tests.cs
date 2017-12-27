@@ -716,6 +716,22 @@ rcv d";
             Do<Day19.B>.Solution("18058");
         }
 
+        [TestMethod]
+        public void Day20ATests()
+        {
+            string i1 =
+@"p=<3,0,0>, v=<2,0,0>, a=<-1,0,0>
+p=<4,0,0>, v=<0,0,0>, a=<-2,0,0>";
+            Do<Day20.A>.Tests(
+                P(i1, 0));
+        }
+
+        [TestMethod]
+        public void Day20ASolution()
+        {
+            Do<Day20.A>.Solution("144");
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());
