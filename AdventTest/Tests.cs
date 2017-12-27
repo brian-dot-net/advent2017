@@ -617,6 +617,7 @@ Generator B starts with 8921";
         }
 
         [TestMethod]
+        [TestCategory("Slow")]
         public void Day17BTests()
         {
             Do<Day17.B>.Tests(
@@ -624,6 +625,7 @@ Generator B starts with 8921";
         }
 
         [TestMethod]
+        [TestCategory("Slow")]
         public void Day17BSolution()
         {
             Do<Day17.B>.Solution("27650600");
@@ -670,6 +672,25 @@ rcv d";
         public void Day18BSolution()
         {
             Do<Day18.B>.Solution("6858");
+        }
+
+        [TestMethod]
+        public void Day19ATests()
+        {
+            string i1 = @"     |          
+     |  +--+    
+     A  |  C    
+ F---|----E|--+ 
+     |  |  |  D 
+     +B-+  +--+";
+            Do<Day19.A>.Tests(
+                P(i1, "ABCDEF"));
+        }
+
+        [TestMethod]
+        public void Day19ASolution()
+        {
+            Do<Day19.A>.Solution("MOABEUCWQS");
         }
 
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
