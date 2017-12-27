@@ -17,35 +17,52 @@
 
             public int Run()
             {
-                Memory memory = new Memory();
-                this.instructions.Run(memory);
-                return memory.LastReceived;
+                Memory p0 = new Memory(0);
+                this.instructions.Run(p0, null);
+                return (int)p0.LastReceived;
+            }
+
+            public int RunTwo()
+            {
+                Memory p0 = new Memory(0);
+                Memory p1 = new Memory(1);
+                this.instructions.Run(p0, p1);
+                return p1.SendCount;
             }
 
             private sealed class Memory
             {
+                private readonly long id;
                 private readonly Dictionary<char, long> registers;
+                private readonly Queue<long> queue;
 
-                private int lastSend;
+                private bool receiving;
+                private long lastSend;
 
-                public Memory()
+                public Memory(long id)
                 {
+                    this.id = id;
                     this.registers = new Dictionary<char, long>();
+                    this.registers['p'] = id;
+                    this.queue = new Queue<long>();
                 }
 
-                public int LastReceived { get; private set; }
+                public int SendCount { get; private set; }
+
+                public long LastReceived { get; private set; }
 
                 public int Instruction { get; private set; }
 
-                public void Send(char r)
+                public void Send(Value x, Memory waiting)
                 {
-                    this.lastSend = (int)this.Get(r);
-                    if (this.lastSend < 0)
+                    this.lastSend = this.Get(x);
+                    if (waiting != null)
                     {
-                        throw new Exception("hmm");
+                        waiting.Enqueue(this.lastSend);
                     }
 
-                    this.Next();
+                    ++this.SendCount;
+                    this.JumpRelative(1);
                 }
 
                 public void Set(char r, Value v)
@@ -68,28 +85,54 @@
                     this.Set(r, v, (x, y) => x % y);
                 }
 
-                public bool Receive(char r)
+                public bool Receive(char r, Memory waiting)
                 {
-                    bool received = false;
-                    if (this.Get(r) != 0)
+                    if (waiting == null)
                     {
-                        this.LastReceived = this.lastSend;
-                        received = true;
+                        bool received = false;
+                        if (this.Get(r) != 0)
+                        {
+                            this.LastReceived = this.lastSend;
+                            received = true;
+                        }
+
+                        this.JumpRelative(1);
+                        return received;
                     }
 
-                    this.Next();
-                    return received;
+                    return this.Receive(r);
                 }
 
-                public void Jump(char r, Value v)
+                private bool Receive(char r)
+                {
+                    bool mustReceive = this.receiving;
+                    this.receiving = false;
+                    if (this.queue.Count > 0)
+                    {
+                        this.Set(r, this.queue.Dequeue());
+                        return false;
+                    }
+                    else if (mustReceive)
+                    {
+                        this.JumpAbsolute(-1);
+                        return false;
+                    }
+                    else
+                    {
+                        this.receiving = true;
+                        return true;
+                    }
+                }
+
+                public void Jump(Value x, Value v)
                 {
                     long inc = 1;
-                    if (this.Get(r) > 0)
+                    if (this.Get(x) > 0)
                     {
                         inc = this.Get(v);
                     }
 
-                    this.Next((int)inc);
+                    this.JumpRelative((int)inc);
                 }
 
                 private long Get(Value v)
@@ -118,11 +161,23 @@
                 {
                     long x = this.Get(r);
                     long y = this.Get(v);
-                    this.registers[r] = op(x, y);
-                    this.Next();
+                    this.Set(r, op(x, y));
                 }
 
-                private void Next(int inc = 1) => this.Instruction += inc;
+                private void Set(char r, long y)
+                {
+                    this.registers[r] = y;
+                    this.JumpRelative(1);
+                }
+
+                private void Enqueue(long y)
+                {
+                    this.queue.Enqueue(y);
+                }
+
+                private void JumpRelative(int inc) => this.JumpAbsolute(this.Instruction + inc);
+
+                private void JumpAbsolute(int i) => this.Instruction = i;
             }
 
             private struct Value
@@ -150,14 +205,42 @@
                     this.instructions = lines.Select(Instruction.Parse).ToArray();
                 }
 
-                public void Run(Memory memory)
+                public void Run(Memory p0, Memory p1)
                 {
-                    while ((memory.Instruction >= 0) && (memory.Instruction < this.instructions.Length))
+                    if (p1 == null)
                     {
-                        Instruction next = this.instructions[memory.Instruction];
-                        if (next.Run(memory))
+                        this.RunOne(p0, null);
+                    }
+                    else
+                    {
+                        this.RunTwo(p0, p1);
+                    }
+                }
+
+                private bool RunOne(Memory running, Memory waiting)
+                {
+                    while ((running.Instruction >= 0) && (running.Instruction < this.instructions.Length))
+                    {
+                        Instruction next = this.instructions[running.Instruction];
+                        if (next.Run(running, waiting))
                         {
-                            return;
+                            return true;
+                        }
+                    }
+
+                    return false;
+                }
+
+                private void RunTwo(Memory p0, Memory p1)
+                {
+                    Queue<Tuple<Memory, Memory>> ps = new Queue<Tuple<Memory, Memory>>();
+                    ps.Enqueue(Tuple.Create(p0, p1));
+                    while (ps.Count > 0)
+                    {
+                        Tuple<Memory, Memory> p = ps.Dequeue();
+                        if (this.RunOne(p.Item1, p.Item2))
+                        {
+                            ps.Enqueue(Tuple.Create(p.Item2, p.Item1));
                         }
                     }
                 }
@@ -165,10 +248,10 @@
                 private struct Instruction
                 {
                     private readonly string opcode;
-                    private readonly char x;
+                    private readonly Value x;
                     private readonly Value y;
 
-                    private Instruction(string opcode, char x, Value y)
+                    private Instruction(string opcode, Value x, Value y)
                     {
                         this.opcode = opcode;
                         this.x = x;
@@ -184,57 +267,57 @@
                             yVal = new Value(fields[2]);
                         }
 
-                        return new Instruction(fields[0].ToString(), fields[1].Character(), yVal);
+                        return new Instruction(fields[0].ToString(), new Value(fields[1]), yVal);
                     }
 
-                    public bool Run(Memory memory)
+                    public bool Run(Memory running, Memory waiting)
                     {
                         switch (opcode)
                         {
-                            case "snd": return this.Send(memory);
-                            case "set": return this.Set(memory);
-                            case "add": return this.Add(memory);
-                            case "mul": return this.Multiply(memory);
-                            case "mod": return this.Mod(memory);
-                            case "rcv": return this.Receive(memory);
-                            case "jgz": return this.Jump(memory);
+                            case "snd": return this.Send(running, waiting);
+                            case "set": return this.Set(running);
+                            case "add": return this.Add(running);
+                            case "mul": return this.Multiply(running);
+                            case "mod": return this.Mod(running);
+                            case "rcv": return this.Receive(running, waiting);
+                            case "jgz": return this.Jump(running);
                             default: throw new InvalidOperationException("Illegal instruction.");
                         }
                     }
 
-                    private bool Send(Memory memory)
+                    private bool Send(Memory running, Memory waiting)
                     {
-                        memory.Send(this.x);
+                        running.Send(this.x, waiting);
                         return false;
                     }
 
                     private bool Set(Memory memory)
                     {
-                        memory.Set(this.x, this.y);
+                        memory.Set(this.x.Register, this.y);
                         return false;
                     }
 
                     private bool Add(Memory memory)
                     {
-                        memory.Add(this.x, this.y);
+                        memory.Add(this.x.Register, this.y);
                         return false;
                     }
 
                     private bool Multiply(Memory memory)
                     {
-                        memory.Multiply(this.x, this.y);
+                        memory.Multiply(this.x.Register, this.y);
                         return false;
                     }
 
                     private bool Mod(Memory memory)
                     {
-                        memory.Mod(this.x, this.y);
+                        memory.Mod(this.x.Register, this.y);
                         return false;
                     }
 
-                    private bool Receive(Memory memory)
+                    private bool Receive(Memory running, Memory waiting)
                     {
-                        return memory.Receive(this.x);
+                        return running.Receive(this.x.Register, waiting);
                     }
 
                     private bool Jump(Memory memory)

@@ -65,6 +65,7 @@
     <Compile Include="Day17\B.cs" />
     <Compile Include="Day17\A.cs" />
     <Compile Include="Day17\Base.cs" />
+    <Compile Include="Day18\B.cs" />
     <Compile Include="Day18\A.cs" />
     <Compile Include="Day18\Base.cs" />
     <Compile Include="Knot.cs" />

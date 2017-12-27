@@ -652,6 +652,26 @@ jgz a -2";
             Do<Day18.A>.Solution("4601");
         }
 
+        [TestMethod]
+        public void Day18BTests()
+        {
+            string i1 = @"snd 1
+snd 2
+snd p
+rcv a
+rcv b
+rcv c
+rcv d";
+            Do<Day18.B>.Tests(
+                P(i1, 3));
+        }
+
+        [TestMethod]
+        public void Day18BSolution()
+        {
+            Do<Day18.B>.Solution("6858");
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());
