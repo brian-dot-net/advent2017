@@ -98,6 +98,8 @@
     <Compile Include="Day21\B.cs" />
     <Compile Include="Day21\A.cs" />
     <Compile Include="Day21\Base.cs" />
+    <Compile Include="Day22\A.cs" />
+    <Compile Include="Day22\Base.cs" />
     <Compile Include="DayBase.cs" />
     <Compile Include="ICanRun.cs" />
     <Compile Include="Input.cs" />
@@ -132,7 +134,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Day20\Input.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Day22\Input.txt" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Day21\Input.txt" />
   </ItemGroup>

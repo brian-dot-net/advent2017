@@ -782,6 +782,23 @@ p=<3,0,0>, v=<-1,0,0>, a=<0,0,0>";
             Do<Day21.B>.Solution("2766750");
         }
 
+        [TestMethod]
+        public void Day22ATests()
+        {
+            string i1 =
+                "..#" + NL +
+                "#.." + NL +
+                "...";
+            Do<Day22.A>.Tests(
+                P(i1, 5587));
+        }
+
+        [TestMethod]
+        public void Day22ASolution()
+        {
+            Do<Day22.A>.Solution("5348");
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());

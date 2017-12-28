@@ -273,7 +273,7 @@
                     this.i = i;
                 }
 
-                public int Size => 3;                
+                public int Size => 3;
 
                 public void CopyTo(Grid output, int dy, int dx)
                 {
