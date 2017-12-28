@@ -95,6 +95,7 @@
     <Compile Include="Day20\B.cs" />
     <Compile Include="Day20\A.cs" />
     <Compile Include="Day20\Base.cs" />
+    <Compile Include="Day21\B.cs" />
     <Compile Include="Day21\A.cs" />
     <Compile Include="Day21\Base.cs" />
     <Compile Include="DayBase.cs" />
