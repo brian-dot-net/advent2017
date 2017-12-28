@@ -19,29 +19,41 @@
                 this.pos = this.squares.Center;
             }
 
-            public int Run(int n)
+            public int Run(bool useAllStates, int n)
             {
                 int total = 0;
                 for (int i = 0; i < n; ++i)
                 {
-                    total += this.RunOne();
+                    total += this.RunOne(useAllStates);
                 }
 
                 return total;
             }
 
-            private int RunOne()
+            private static int TurnInc(NodeState state)
             {
-                bool wasInfected = this.squares.Toggle(this.pos);
-                this.Turn(wasInfected);
-                this.Move();
-
-                return wasInfected ? 0 : 1;
+                switch (state)
+                {
+                    case NodeState.Clean: return -1;
+                    case NodeState.Infected: return 1;
+                    case NodeState.Flagged: return 2;
+                    default: return 0;
+                }
             }
 
-            private void Turn(bool infected)
+            private int RunOne(bool useAllStates)
             {
-                int d = (int)this.dir + (infected ? 1 : -1);
+                NodeState previous = this.squares.Toggle(useAllStates, this.pos);
+                this.Turn(previous);
+                this.Move();
+
+                NodeState expected = useAllStates ? NodeState.Weakened : NodeState.Clean;
+                return (previous == expected) ? 1 : 0;
+            }
+
+            private void Turn(NodeState state)
+            {
+                int d = (int)this.dir + TurnInc(state);
                 this.dir = (Direction)((d + 4) % 4);
             }
 
@@ -59,6 +71,14 @@
                         default: return new Pair(-1, 0);
                     }
                 }
+            }
+
+            private enum NodeState : byte
+            {
+                Clean = 0,
+                Weakened = 1,
+                Infected = 2,
+                Flagged = 3
             }
 
             private enum Direction
@@ -86,13 +106,14 @@
 
                 private Pair Region(Pair pos) => pos.Region(this.size);
 
-                public bool Toggle(Pair pos)
+                public NodeState Toggle(bool useAllStates, Pair pos)
                 {
                     Square square = this.Get(pos, null);
                     Pair rel = pos.Relative(this.size);
-                    bool wasInfected = square[rel];
-                    square[rel] = !wasInfected;
-                    return wasInfected;
+                    NodeState prev = square[rel];
+                    int toggle = useAllStates ? 1 : 2;
+                    square[rel] = (NodeState)(((int)prev + toggle) % 4);
+                    return prev;
                 }
 
                 private Square Get(Pair pos, Square newValue)
@@ -150,7 +171,7 @@
 
             private sealed class Square
             {
-                private readonly bool[] cells;
+                private readonly NodeState[] cells;
 
                 public Square(Input input)
                     : this(input.Lines().First().Length)
@@ -161,7 +182,7 @@
                         string row = line.ToString();
                         for (int j = 0; j < row.Length; ++j)
                         {
-                            this[new Pair(j, i)] = row[j] == '#';
+                            this[new Pair(j, i)] = (row[j] == '#') ? NodeState.Infected : NodeState.Clean;
                         }
 
                         ++i;
@@ -171,10 +192,10 @@
                 public Square(int size)
                 {
                     this.Size = size;
-                    this.cells = new bool[size * size];
+                    this.cells = new NodeState[size * size];
                 }
 
-                public bool this[Pair p]
+                public NodeState this[Pair p]
                 {
                     get => this.cells[this.XY(p)];
                     set => this.cells[this.XY(p)] = value;

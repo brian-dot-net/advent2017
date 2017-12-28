@@ -799,6 +799,39 @@ p=<3,0,0>, v=<-1,0,0>, a=<0,0,0>";
             Do<Day22.A>.Solution("5348");
         }
 
+        [TestMethod]
+        [TestCategory("Slow")]
+        public void Day22BTests()
+        {
+            string i1 =
+                "................." + NL +
+                "................." + NL +
+                "................." + NL +
+                "................." + NL +
+                "................." + NL +
+                "................." + NL +
+                "................." + NL +
+                ".........#......." + NL +
+                ".......#........." + NL +
+                "................." + NL +
+                "................." + NL +
+                "................." + NL +
+                "................." + NL +
+                "................." + NL +
+                "................." + NL +
+                "................." + NL +
+                ".................";
+            Do<Day22.B>.Tests(
+                P(i1, 2511944));
+        }
+
+        [TestMethod]
+        [TestCategory("Slow")]
+        public void Day22BSolution()
+        {
+            Do<Day22.B>.Solution("2512225");
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());

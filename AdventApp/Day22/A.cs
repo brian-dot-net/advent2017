@@ -2,6 +2,6 @@
 {
     public class A : Base
     {
-        protected override int RunCore(Input input) => new Grid(input).Run(10000);
+        protected override int RunCore(Input input) => new Grid(input).Run(false, 10000);
     }
 }
