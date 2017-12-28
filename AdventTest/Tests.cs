@@ -750,6 +750,22 @@ p=<3,0,0>, v=<-1,0,0>, a=<0,0,0>";
             Do<Day20.B>.Solution("477");
         }
 
+        [TestMethod]
+        public void Day21ATests()
+        {
+            string i1 = @"N => 2
+../.# => ##./#../...
+.#./..#/### => #..#/..../..../#..#";
+            Do<Day21.A>.Tests(
+                P(i1, 12));
+        }
+
+        [TestMethod]
+        public void Day21ASolution()
+        {
+            Do<Day21.A>.Solution("179");
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());

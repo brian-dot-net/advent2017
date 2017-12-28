@@ -46,6 +46,7 @@
             Show<Day19.B>();
             Show<Day20.A>();
             Show<Day20.B>();
+            Show<Day21.A>();
         }
 
         private static void Show<TDay>() where TDay : ICanRun, new() => Day<TDay>.Show(Console.Out);
