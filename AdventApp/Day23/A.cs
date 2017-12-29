@@ -2,6 +2,6 @@
 {
     public class A : Base
     {
-        protected override int RunCore(Input input) => new Coprocessor(input).Run();
+        protected override int RunCore(Input input) => new Coprocessor(input).Run(true).MultiplyCount;
     }
 }

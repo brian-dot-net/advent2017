@@ -699,7 +699,7 @@ rcv d";
         [TestMethod]
         public void Day19BTests()
         {
-            string i1 = 
+            string i1 =
                 "     |          " + NL +
                 "     |  +--+    " + NL +
                 "     A  |  C    " + NL +
@@ -850,6 +850,19 @@ jnz b 1";
         public void Day23ASolution()
         {
             Do<Day23.A>.Solution("3025");
+        }
+
+        [TestMethod]
+        public void Day23BTests()
+        {
+            // Not generalized. :(
+            Assert.Inconclusive();
+        }
+
+        [TestMethod]
+        public void Day23BSolution()
+        {
+            Do<Day23.B>.Solution("915");
         }
 
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)

@@ -6,6 +6,13 @@
 
     public abstract class Base : DayBase<int>
     {
+        protected interface IRegisters
+        {
+            int MultiplyCount { get; }
+
+            int H { get; }
+        }
+
         protected sealed class Coprocessor
         {
             private readonly Instructions instructions;
@@ -15,9 +22,11 @@
                 this.instructions = new Instructions(input);
             }
 
-            public int Run()
+            public IRegisters Run(bool debug)
             {
-                return this.instructions.Run(new Registers());
+                Registers registers = new Registers(debug);
+                this.instructions.Run(registers);
+                return registers;
             }
 
             private sealed class Instructions
@@ -29,16 +38,14 @@
                     this.instructions = input.Lines().Select(Instruction.Parse).ToArray();
                 }
 
-                public int Run(Registers registers)
+                public void Run(Registers registers)
                 {
                     int n = this.instructions.Length;
-                    int m = 0;
                     while ((registers.Instruction >= 0) && (registers.Instruction < n))
                     {
-                        m += this.instructions[registers.Instruction].Run(registers);
+                        Instruction instruction = this.instructions[registers.Instruction];
+                        instruction.Run(registers);
                     }
-
-                    return m;
                 }
 
                 private struct Instruction
@@ -60,40 +67,25 @@
                         return new Instruction(fields[0].ToString(), new Value(fields[1]), new Value(fields[2]));
                     }
 
-                    public int Run(Registers registers)
+                    public void Run(Registers registers)
                     {
                         switch (this.opcode)
                         {
-                            case "set": return this.Set(registers);
-                            case "sub": return this.Subtract(registers);
-                            case "mul": return this.Multiply(registers);
-                            case "jnz": return this.Jump(registers);
-                            default: throw new InvalidOperationException("Illegal instruction.");
+                            case "set":
+                                registers.Set(this.x, this.y);
+                                break;
+                            case "sub":
+                                registers.Subtract(this.x, this.y);
+                                break;
+                            case "mul":
+                                registers.Multiply(this.x, this.y);
+                                break;
+                            case "jnz":
+                                registers.Jump(this.x, this.y);
+                                break;
+                            default:
+                                throw new InvalidOperationException("Illegal instruction.");
                         }
-                    }
-
-                    private int Set(Registers registers)
-                    {
-                        registers.Set(this.x, this.y);
-                        return 0;
-                    }
-
-                    private int Subtract(Registers registers)
-                    {
-                        registers.Subtract(this.x, this.y);
-                        return 0;
-                    }
-
-                    private int Multiply(Registers registers)
-                    {
-                        registers.Multiply(this.x, this.y);
-                        return 1;
-                    }
-
-                    private int Jump(Registers registers)
-                    {
-                        registers.Jump(this.x, this.y);
-                        return 0;
                     }
                 }
             }
@@ -116,16 +108,26 @@
                 public int Integer => this.value;
             }
 
-            private sealed class Registers
+            private sealed class Registers : IRegisters
             {
                 private readonly Dictionary<char, long> registers;
+                private readonly bool debug;
 
-                public Registers()
+                public Registers(bool debug)
                 {
                     this.registers = new Dictionary<char, long>();
+                    this.debug = debug;
+                    if (!this.debug)
+                    {
+                        this.registers['a'] = 1;
+                    }
                 }
 
                 public int Instruction { get; private set; }
+
+                public int MultiplyCount { get; private set; }
+
+                public int H => (int)this.Get('h');
 
                 public void Set(Value x, Value y)
                 {
@@ -139,6 +141,7 @@
 
                 public void Multiply(Value x, Value y)
                 {
+                    ++this.MultiplyCount;
                     this.Set(x.Character, this.Get(x) * this.Get(y));
                 }
 
