@@ -881,9 +881,32 @@ jnz b 1";
         }
 
         [TestMethod]
+        [TestCategory("Slow")]
         public void Day24ASolution()
         {
             Do<Day24.A>.Solution("1695");
+        }
+
+        [TestMethod]
+        public void Day24BTests()
+        {
+            string i1 = @"0/2
+2/2
+2/3
+3/4
+3/5
+0/1
+10/1
+9/10";
+            Do<Day24.B>.Tests(
+                P(i1, 19));
+        }
+
+        [TestMethod]
+        [TestCategory("Slow")]
+        public void Day24BSolution()
+        {
+            Do<Day24.B>.Solution("1673");
         }
 
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)

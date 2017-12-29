@@ -16,9 +16,43 @@ namespace Advent.Day24
 
             public int Build()
             {
-                List<int> weights = this.components.Build();
-                weights.Sort();
-                return weights[weights.Count - 1];
+                List<Pair> pairs = this.components.Build();
+                pairs.Sort((a, b) => b.Weight.CompareTo(a.Weight));
+                return pairs[0].Weight;
+            }
+
+            public int BuildLongest()
+            {
+                List<Pair> pairs = this.components.Build();
+                pairs.Sort((a, b) => b.CompareLength(a));
+                return pairs[0].Weight;
+            }
+
+            private struct Pair
+            {
+                private readonly int weight;
+                private readonly int length;
+
+                public Pair(int weight, int length)
+                {
+                    this.weight = weight;
+                    this.length = length;
+                }
+
+                public int Weight => this.weight;
+
+                public int Length => this.length;
+
+                public int CompareLength(Pair other)
+                {
+                    int c = this.length.CompareTo(other.length);
+                    if (c == 0)
+                    {
+                        c = this.weight.CompareTo(other.Weight);
+                    }
+
+                    return c;
+                }
             }
 
             private sealed class Components
@@ -34,30 +68,30 @@ namespace Advent.Day24
                     }
                 }
 
-                public List<int> Build()
+                public List<Pair> Build()
                 {
-                    List<int> weights = new List<int>();
-                    this.Connect(weights, 0, 0);
-                    return weights;
+                    List<Pair> pairs = new List<Pair>();
+                    this.Connect(pairs, new Pair(0, 0), 0);
+                    return pairs;
                 }
 
-                private void Connect(List<int> weights, int weight, int edge)
+                private void Connect(List<Pair> pairs, Pair pair, int edge)
                 {
-                    if (weight > 0)
+                    if (pair.Weight > 0)
                     {
-                        weights.Add(weight);
+                        pairs.Add(pair);
                     }
 
                     foreach (Component next in this.Find(edge))
                     {
-                        int w = weight + next.Weight;
+                        Pair p = new Pair(pair.Weight + next.Weight, pair.Length + 1);
                         if (edge == next.X)
                         {
-                            this.Connect(weights, w, next.Y);
+                            this.Connect(pairs, p, next.Y);
                         }
                         else
                         {
-                            this.Connect(weights, w, next.X);
+                            this.Connect(pairs, p, next.X);
                         }
 
                         next.Toggle();
