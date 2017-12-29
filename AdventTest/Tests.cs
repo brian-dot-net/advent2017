@@ -865,6 +865,27 @@ jnz b 1";
             Do<Day23.B>.Solution("915");
         }
 
+        [TestMethod]
+        public void Day24ATests()
+        {
+            string i1 = @"0/2
+2/2
+2/3
+3/4
+3/5
+0/1
+10/1
+9/10";
+            Do<Day24.A>.Tests(
+                P(i1, 31));
+        }
+
+        [TestMethod]
+        public void Day24ASolution()
+        {
+            Do<Day24.A>.Solution("1695");
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());
