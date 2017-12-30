@@ -88,28 +88,11 @@
                         TapeSegment segment;
                         if (!this.segments.TryGetValue(k, out segment))
                         {
-                            this.Compact();
                             segment = new TapeSegment();
                             this.segments.Add(k, segment);
                         }
 
                         return segment;
-                    }
-
-                    private void Compact()
-                    {
-                        if (this.segments.Count < 8)
-                        {
-                            return;
-                        }
-
-                        foreach (int k in this.segments.Keys.ToArray())
-                        {
-                            if (this.segments[k].Checksum() == 0)
-                            {
-                                this.segments.Remove(k);
-                            }
-                        }
                     }
 
                     private static KeyValuePair<int, int> Index(int i)
