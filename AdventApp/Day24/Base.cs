@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Advent.Day24
+﻿namespace Advent.Day24
 {
+    using System.Collections.Generic;
+
     public abstract class Base : DayBase<int>
     {
         protected sealed class Bridge

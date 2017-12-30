@@ -107,9 +107,12 @@
     <Compile Include="Day24\B.cs" />
     <Compile Include="Day24\Base.cs" />
     <Compile Include="Day.cs" />
+    <Compile Include="Day25\A.cs" />
+    <Compile Include="Day25\Base.cs" />
     <Compile Include="DayBase.cs" />
     <Compile Include="ICanRun.cs" />
     <Compile Include="Input.cs" />
+    <Compile Include="OneBitsTable.cs" />
     <Compile Include="Knot.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -142,6 +145,9 @@
     <EmbeddedResource Include="Day22\Input.txt" />
     <EmbeddedResource Include="Day23\Input.txt" />
     <EmbeddedResource Include="Day24\Input.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Day25\Input.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

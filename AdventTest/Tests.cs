@@ -909,6 +909,42 @@ jnz b 1";
             Do<Day24.B>.Solution("1673");
         }
 
+        [TestMethod]
+        public void Day25ATests()
+        {
+            string i1 = @"Begin in state A.
+Perform a diagnostic checksum after 6 steps.
+
+In state A:
+  If the current value is 0:
+    - Write the value 1.
+    - Move one slot to the right.
+    - Continue with state B.
+  If the current value is 1:
+    - Write the value 0.
+    - Move one slot to the left.
+    - Continue with state B.
+
+In state B:
+  If the current value is 0:
+    - Write the value 1.
+    - Move one slot to the left.
+    - Continue with state A.
+  If the current value is 1:
+    - Write the value 1.
+    - Move one slot to the right.
+    - Continue with state A.";
+            Do<Day25.A>.Tests(
+                P(i1, 3));
+        }
+
+        [TestMethod]
+        [TestCategory("Slow")]
+        public void Day25ASolution()
+        {
+            Do<Day25.A>.Solution("2846");
+        }
+
         private static KeyValuePair<string, string> P<TValue>(string key, TValue value)
         {
             return new KeyValuePair<string, string>(key, value.ToString());

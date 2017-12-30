@@ -112,7 +112,7 @@
 
                 private struct GridRow
                 {
-                    private static readonly int[] OneBitsTable = Enumerable.Range(0, 256).Select(b => OneBits((byte)b)).ToArray();
+                    private static readonly OneBitsTable Table = new OneBitsTable();
 
                     private readonly byte[] row;
 
@@ -121,25 +121,13 @@
                         this.row = Knot.Hash(input);
                     }
 
-                    public int UsedSquares() => this.row.Select(b => OneBitsTable[b]).Sum();
+                    public int UsedSquares() => this.row.Select(b => Table[b]).Sum();
 
                     public bool IsUsed(int x)
                     {
                         byte b = this.row[x / 8];
                         int s = 7 - (x % 8);
                         return ((b >> s) & 1) == 1;
-                    }
-
-                    private static int OneBits(byte b)
-                    {
-                        int ones = 0;
-                        while (b > 0)
-                        {
-                            ones += b & 1;
-                            b >>= 1;
-                        }
-
-                        return ones;
                     }
                 }
             }
