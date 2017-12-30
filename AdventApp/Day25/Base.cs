@@ -23,7 +23,7 @@
 
             public int Run()
             {
-                Tape tape = new Tape(64);
+                Tape tape = new Tape();
                 char current = this.start;
                 for (int i = 0; i < diag; ++i)
                 {
@@ -39,9 +39,9 @@
 
                 private int i;
 
-                public Tape(int segmentSize)
+                public Tape()
                 {
-                    this.segments = new TapeSegments(segmentSize);
+                    this.segments = new TapeSegments();
                 }
 
                 public char Run(Rule rule0, Rule rule1)
@@ -61,11 +61,9 @@
                 private sealed class TapeSegments
                 {
                     private readonly Dictionary<int, TapeSegment> segments;
-                    private readonly int segmentSize;
 
-                    public TapeSegments(int segmentSize)
+                    public TapeSegments()
                     {
-                        this.segmentSize = segmentSize;
                         this.segments = new Dictionary<int, TapeSegment>();
                     }
 
@@ -73,14 +71,14 @@
 
                     public void Set(int i, bool one)
                     {
-                        KeyValuePair<int, int> kv = this.Index(i);
+                        KeyValuePair<int, int> kv = Index(i);
                         TapeSegment segment = this.GetSegment(kv.Key);
                         segment[kv.Value] = one;
                     }
 
                     public bool Get(int i)
                     {
-                        KeyValuePair<int, int> kv = this.Index(i);
+                        KeyValuePair<int, int> kv = Index(i);
                         TapeSegment segment = this.GetSegment(kv.Key);
                         return segment[kv.Value];
                     }
@@ -91,7 +89,7 @@
                         if (!this.segments.TryGetValue(k, out segment))
                         {
                             this.Compact();
-                            segment = new TapeSegment(this.segmentSize);
+                            segment = new TapeSegment();
                             this.segments.Add(k, segment);
                         }
 
@@ -114,19 +112,20 @@
                         }
                     }
 
-                    private KeyValuePair<int, int> Index(int i)
+                    private static KeyValuePair<int, int> Index(int i)
                     {
+                        const int N = TapeSegment.Size;
                         int j;
                         int k;
                         if (i < 0)
                         {
-                            j = ((i + 1) / this.segmentSize) - 1;
-                            k = ((i + 1) % this.segmentSize) - 1 + this.segmentSize;
+                            j = ((i + 1) / N) - 1;
+                            k = ((i + 1) % N) - 1 + N;
                         }
                         else
                         {
-                            j = i / this.segmentSize;
-                            k = i % this.segmentSize;
+                            j = i / N;
+                            k = i % N;
                         }
 
                         return new KeyValuePair<int, int>(j, k);
@@ -134,68 +133,50 @@
 
                 }
 
-                private struct TapeSegment
+                private sealed class TapeSegment
                 {
-                    private const int Size = sizeof(ulong) * 8;
+                    public const int Size = sizeof(ulong) * 8;
 
                     private static readonly OneBitsTable Table = new OneBitsTable();
 
-                    private readonly ulong[] items;
-
-                    public TapeSegment(int size)
-                    {
-                        this.items = new ulong[size / Size];
-                    }
-
-                    public int Checksum() => this.items.Select(CountBits).Sum();
+                    private ulong bits;
 
                     public bool this[int i]
                     {
                         get
                         {
-                            KeyValuePair<int, int> kv = this.Index(i);
-                            ulong v = this.items[kv.Key];
-                            return ((v >> kv.Value) & 1) == 1;
+                            int s = i % Size;
+                            return ((this.bits >> s) & 1) == 1;
                         }
 
                         set
                         {
-                            KeyValuePair<int, int> kv = this.Index(i);
-                            ulong v = this.items[kv.Key];
+                            int s = i % Size;
                             if (value)
                             {
-                                v |= 1UL << kv.Value;
+                                this.bits |= 1UL << s;
                             }
                             else
                             {
-                                v &= ~(1UL << kv.Value);
+                                this.bits &= ~(1UL << s);
                             }
-
-                            this.items[kv.Key] = v;
                         }
                     }
 
-                    private static int CountBits(ulong v)
+                    public int Checksum()
                     {
                         return
-                            CountBitsB(v, 0) +
-                            CountBitsB(v, 1) +
-                            CountBitsB(v, 2) +
-                            CountBitsB(v, 3) +
-                            CountBitsB(v, 4) +
-                            CountBitsB(v, 5) +
-                            CountBitsB(v, 6) +
-                            CountBitsB(v, 7);
+                            this.CountBitsN(0) +
+                            this.CountBitsN(1) +
+                            this.CountBitsN(2) +
+                            this.CountBitsN(3) +
+                            this.CountBitsN(4) +
+                            this.CountBitsN(5) +
+                            this.CountBitsN(6) +
+                            this.CountBitsN(7);
                     }
 
-                    private static int CountBitsB(ulong v, int b) => Table[(byte)(0xFF & (v >> (8 * b)))];
-
-                    private KeyValuePair<int, int> Index(int i)
-                    {
-                        int j = i / (Size * this.items.Length);
-                        int s = i % Size;
-                        return new KeyValuePair<int, int>(j, s);
-                    }
+                    private int CountBitsN(int n) => Table[(byte)(0xFF & (this.bits >> (8 * n)))];
                 }
             }
 
